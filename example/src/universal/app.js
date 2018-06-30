@@ -4,6 +4,7 @@ import Home from './home';
 import Contact from './contact';
 import styled, {keyframes} from 'styled-components';
 
+const gridColumnWidth = 100;
 const gridRowHeight = 30;
 const arrowHeight = 5;
 const perspective = 850;
@@ -14,7 +15,7 @@ const moveSeconds = 0.2;
 
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: 100px 100px 100px 100px 100px 100px;
+  grid-template-columns: repeat(6, ${gridColumnWidth}px);
   grid-template-rows: ${gridRowHeight}px;
 `;
 const ArrowUp = styled.div`
@@ -56,7 +57,6 @@ const Move = (fromData, toData) => keyframes`
     height: ${toData.height}px;
   }
 `;
-
 const FadeIn = keyframes`
   from {
     opacity: 0;
@@ -70,7 +70,6 @@ const FadeIn = keyframes`
     transform-origin: top center;
   }
 `;
-
 const FadeOut = keyframes`
   from {
     opacity: 1;
@@ -129,25 +128,40 @@ const List = props => {
   const {data: {items}} = props;
   return (
     <ul style={{listStyleType: 'none', padding: '5px'}}>
-      {items.map(i => <li>{i}</li>)}
+      {items.map((li, i) => <li key={`list-item-${i}`}>{li}</li>)}
     </ul>
   );
 };
 
-const MenuData = {
-  products: {left: -10, width: 200, height: 200, items: ['Payments', 'Billing', 'Connect']},
-  developers: {left: 90, width: 300, height: 400, items: ['Documentation', 'Api Reference']},
-  company: {left: 190, width: 450, height: 200, items: ['About', 'Customers', 'Jobs']},
+const MenuData = [
+  {label: 'products', width: 200, height: 200, items: ['Payments', 'Billing', 'Connect']},
+  {label: 'developers', width: 300, height: 400, items: ['Documentation', 'Api Reference']},
+  {label: 'company', width: 450, height: 200, items: ['About', 'Customers', 'Jobs']},
+];
+
+const massageMenuData = () => {
+  return MenuData.map((m, i) => {
+    const result = {...m};
+    result.index = i;
+    result.left = (((i + 1) * gridColumnWidth) - (gridColumnWidth / 2)) - (m.width / 2);
+    return result;
+  });
 };
 
 export default class App extends Component {
   state = {display: 'none', fadeOut: false, fromData: null, toData: null};
 
-  onMouseEnter = (category) => {
+  constructor(props) {
+    super(props);
+
+    this.menuDataMassaged = massageMenuData();
+  }
+
+  onMouseEnter = (menuDataIndex) => {
     this.setState((prevState) => {
       const fadeOut = false;
       const display = 'block';
-      const toData = MenuData[category];
+      const toData = this.menuDataMassaged[menuDataIndex];
 
       let fromData;
       if (prevState.fadeOut || !prevState.toData) {
@@ -178,9 +192,10 @@ export default class App extends Component {
           <nav>
             <GridContainer>
               <GridItem onMouseLeave={this.onMouseLeave}>
-                <MenuTitle onMouseEnter={() => this.onMouseEnter('products')}>Products</MenuTitle>
-                <MenuTitle onMouseEnter={() => this.onMouseEnter('developers')}>Developers</MenuTitle>
-                <MenuTitle onMouseEnter={() => this.onMouseEnter('company')}>Company</MenuTitle>
+                {
+                  this.menuDataMassaged.map((m, i) =>
+                    <MenuTitle key={`menu-title-${i}`} onMouseEnter={() => this.onMouseEnter(i)}>{m.label}</MenuTitle>)
+                }
                 <MovingDiv display={this.state.display}
                            fadeOut={this.state.fadeOut}
                            fromData={this.state.fromData}
