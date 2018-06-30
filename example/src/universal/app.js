@@ -6,6 +6,7 @@ import styled, {keyframes} from 'styled-components';
 
 const gridRowHeight = 30;
 const arrowHeight = 5;
+const perspective = 850;
 
 const fadeOutSeconds = 0.34;
 const fadeInSeconds = 0.25;
@@ -59,13 +60,13 @@ const Move = (fromData, toData) => keyframes`
 const FadeIn = keyframes`
   from {
     opacity: 0;
-    transform: perspective(200px) rotateX(-60deg);
+    transform: perspective(${perspective}px) rotateX(-60deg);
     transform-origin: top center;
   }
   
   to {
     opacity: 1;
-    transform: perspective(200px) rotateX(0deg);
+    transform: perspective(${perspective}px) rotateX(0deg);
     transform-origin: top center;
   }
 `;
@@ -73,14 +74,14 @@ const FadeIn = keyframes`
 const FadeOut = keyframes`
   from {
     opacity: 1;
-    transform: perspective(200px) rotateX(0deg);
-    transform-origin: top right;
+    transform: perspective(${perspective}px) rotateX(0deg);
+    transform-origin: top center;
   }
   
   to {
     opacity: 0;
-    transform: perspective(200px) rotateX(-60deg);
-    transform-origin: top right;
+    transform: perspective(${perspective}px) rotateX(-60deg);
+    transform-origin: top center;
     z-index: -1; // HACK: do this so hidden div does not block other elements on the page! We should have set display: none here, but its too hard
   }
 `;
