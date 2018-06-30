@@ -1,0 +1,61 @@
+{
+  "name": "universal-hot-reload-example",
+  "version": "1.1.0",
+  "description": "Example of universal-hot-reload usage for universally bundled apps",
+  "main": "src/server/index.js",
+  "scripts": {
+    "start": "node src/server/index.js",
+    "lint": "eslint ./src",
+    "serve": "webpack-serve webpack.config.server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yusinto/universal-hot-reload.git"
+  },
+  "keywords": [
+    "universal",
+    "hot",
+    "reload",
+    "client",
+    "server",
+    "webpack",
+    "bundle"
+  ],
+  "author": "Yus Ng",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yusinto/universal-hot-reload"
+  },
+  "homepage": "https://github.com/yusinto/universal-hot-reload",
+  "dependencies": {
+    "@babel/plugin-transform-async-to-generator": "^7.0.0-beta.49",
+    "@babel/polyfill": "^7.0.0-beta.49",
+    "babel-plugin-styled-components": "^1.5.1",
+    "express": "^4.16.3",
+    "lodash": "^4.17.10",
+    "prop-types": "^15.6.1",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
+    "react-router-dom": "^4.2.2",
+    "styled-components": "^3.3.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0-beta.49",
+    "@babel/core": "^7.0.0-beta.49",
+    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.49",
+    "@babel/preset-env": "^7.0.0-beta.49",
+    "@babel/preset-react": "^7.0.0-beta.49",
+    "babel-eslint": "^8.2.3",
+    "babel-loader": "^8.0.0-beta",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.8.2",
+    "universal-hot-reload": "^1.0.4",
+    "webpack": "^4.10.2",
+    "webpack-cli": "^2.1.4",
+    "webpack-node-externals": "^1.7.2",
+    "webpack-serve": "^1.0.2"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "react-site-menu",
+  "version": "0.0.1",
+  "description": "A kick ass site menu using styled components and css animations inspired by Stripe.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yusinto/react-site-menu.git"
+  },
+  "keywords": [
+    "react",
+    "site",
+    "navigation",
+    "menu",
+    "bar",
+    "animated",
+    "stripe"
+  ],
+  "author": "Yusinto Ngadiman",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yusinto/react-site-menu/issues"
+  },
+  "homepage": "https://github.com/yusinto/react-site-menu#readme"
+}
