@@ -1,7 +1,7 @@
 {
-  "name": "universal-hot-reload-example",
+  "name": "react-site-menu-example",
   "version": "1.1.0",
-  "description": "Example of universal-hot-reload usage for universally bundled apps",
+  "description": "Demo of react-site-menu a kickass navigation menu inspired by stripe.com",
   "main": "src/server/index.js",
   "scripts": {
     "start": "node src/server/index.js",
@@ -10,23 +10,23 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yusinto/universal-hot-reload.git"
+    "url": "https://github.com/yusinto/react-site-menu.git"
   },
   "keywords": [
-    "universal",
-    "hot",
-    "reload",
-    "client",
-    "server",
-    "webpack",
-    "bundle"
+    "react",
+    "site",
+    "navigation",
+    "menu",
+    "bar",
+    "animated",
+    "stripe"
   ],
   "author": "Yus Ng",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/yusinto/universal-hot-reload"
+    "url": "https://github.com/yusinto/react-site-menu"
   },
-  "homepage": "https://github.com/yusinto/universal-hot-reload",
+  "homepage": "https://github.com/yusinto/react-site-menu",
   "dependencies": {
     "@babel/plugin-transform-async-to-generator": "^7.0.0-beta.49",
     "@babel/polyfill": "^7.0.0-beta.49",
