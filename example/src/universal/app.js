@@ -12,6 +12,7 @@ const perspective = 850;
 const fadeOutSeconds = 0.34;
 const fadeInSeconds = 0.25;
 const moveSeconds = 0.2;
+const moveArrowSeconds = 0.25;
 
 const GridContainer = styled.div`
   display: grid;
@@ -19,12 +20,26 @@ const GridContainer = styled.div`
   grid-template-rows: ${gridRowHeight}px;
 `;
 const ArrowUp = styled.div`
-  margin-left: 40px;
+  margin-left: ${({toData}) => toData ? (toData.width / 2) - arrowHeight : 0}px;
   width: 0; 
   height: 0; 
   border-left: ${arrowHeight}px solid transparent;
   border-right: ${arrowHeight}px solid transparent;
   border-bottom: ${arrowHeight}px solid #73AD21;
+  animation: ${({fromData, toData}) => {
+    if (fromData) return MoveArrow(fromData, toData);
+    return '';
+  }}
+  ${moveArrowSeconds}s forwards ease;
+`;
+const MoveArrow = (fromData, toData) => keyframes`
+  from {
+    margin-left: ${(fromData.width / 2) - arrowHeight}px;
+  }
+  
+  to {
+    margin-left: ${(toData.width / 2) - arrowHeight}px;
+  }
 `;
 const GridItem = styled.div`
   background: #6772e5;
@@ -96,7 +111,7 @@ const MovingDiv = styled.div`
   if (fadeOut) return FadeOut;
   if (display === 'block') {
     if (fromData.left === toData.left) return FadeIn;
-    if(fromData) return Move(fromData, toData);
+    if (fromData) return Move(fromData, toData);
   }
   return ''; // display: none; don't animate
 }}
@@ -106,7 +121,7 @@ const MovingDiv = styled.div`
   if (fadeOut) return `${fadeOutSeconds}s`;
   if (display === 'block') {
     if (fromData.left === toData.left) return `${fadeInSeconds}s`; // fade in
-    if(fromData) return `${moveSeconds}s`; // move
+    if (fromData) return `${moveSeconds}s`; // move
   }
   return '0s'; // display: none; don't animate
 }}
@@ -153,7 +168,6 @@ export default class App extends Component {
 
   constructor(props) {
     super(props);
-
     this.menuDataMassaged = massageMenuData();
   }
 
@@ -201,7 +215,9 @@ export default class App extends Component {
                            fromData={this.state.fromData}
                            toData={this.state.toData}
                 >
-                  <ArrowUp/>
+                  <ArrowUp fromData={this.state.fromData}
+                           toData={this.state.toData}
+                  />
                   <MovingDivContent>
                     {
                       this.state.toData && <List data={this.state.toData}/>
