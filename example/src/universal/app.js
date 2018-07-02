@@ -133,27 +133,53 @@ const MovingDivContent = styled.div`
   border-radius: 5px;
   width: 100%;
   height: 100%;
-  & > ul {
-    margin-top: 0;
-    margin-bottom: 0;
+`;
+const FadeInContent = keyframes`
+  from {
+    opacity: 0;
+  }
+  
+  to {
+    opacity: 1;
   }
 `;
+const FadeOutContent = keyframes`
+  from {
+    opacity: 1;
+  }
+  
+  to {
+    opacity: 0;
+  }
+`;
+const ListContent = styled.ul`
+  position: absolute;
+  top: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style-type: none;
+  padding: 5px;
+  opacity: ${({show}) => show ? 1 : 0};
+  animation: ${({coldStart, show}) => {
+    if (coldStart) return ''; // just show without animation on cold start
+    return show ? FadeInContent : FadeOutContent
+  }} 
+  ${({show}) => show ? '0.1' : '0.29'}s
+  forwards;
+`;
 
-const List = props => {
-  const {data: {items}} = props;
-  return (
-    <ul style={{listStyleType: 'none', padding: '5px'}}>
-      {items.map((li, i) => <li key={`list-item-${i}`}>{li}</li>)}
-    </ul>
-  );
-};
-
+/**
+ * Tentative shape of the object that drives the menu items
+ */
 const MenuData = [
   {label: 'products', width: 200, height: 200, items: ['Payments', 'Billing', 'Connect']},
   {label: 'developers', width: 300, height: 400, items: ['Documentation', 'Api Reference']},
   {label: 'company', width: 450, height: 200, items: ['About', 'Customers', 'Jobs']},
 ];
 
+/**
+ * Injects index and left properties into MenuData
+ */
 const massageMenuData = () => {
   return MenuData.map((m, i) => {
     const result = {...m};
@@ -220,7 +246,16 @@ export default class App extends Component {
                   />
                   <MovingDivContent>
                     {
-                      this.state.toData && <List data={this.state.toData}/>
+                      this.menuDataMassaged.map((m, i) =>
+                        <ListContent
+                          coldStart={this.state.toData && this.state.toData.index === this.state.fromData.index}
+                          show={this.state.toData && this.state.toData.index === i}
+                        >
+                          {
+                            m.items.map((li, j) => <li key={`list-item-${i}-${j}`}>{li}</li>)
+                          }
+                        </ListContent>
+                      )
                     }
                   </MovingDivContent>
                 </MovingDiv>
