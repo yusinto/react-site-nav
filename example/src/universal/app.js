@@ -4,6 +4,8 @@ import Home from './home';
 import Contact from './contact';
 import SiteNav, {ContentGroup} from './siteNav';
 
+// TODO: Use react children api to render content divs
+// https://mxstbr.blog/2017/02/react-children-deepdive/
 export default class App extends Component {
   render() {
     return (
