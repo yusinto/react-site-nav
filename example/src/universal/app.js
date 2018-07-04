@@ -4,8 +4,6 @@ import Home from './home';
 import Contact from './contact';
 import SiteNav, {ContentGroup} from './siteNav';
 
-// TODO: Use react children api to render content divs
-// https://mxstbr.blog/2017/02/react-children-deepdive/
 export default class App extends Component {
   render() {
     return (
@@ -13,18 +11,20 @@ export default class App extends Component {
         <header>
           <SiteNav>
             <ContentGroup label="Products" width="200" height="200">
-              <ContentItem>Payments</ContentItem>
-              <ContentItem>Billing</ContentItem>
-              <ContentItem>Connect</ContentItem>
+              <ul>
+                <li>Payments</li>
+                <li>Billing</li>
+                <li>Connect</li>
+              </ul>
             </ContentGroup>
             <ContentGroup label="Developers" width="300" height="400">
-              <ContentItem>Documentation</ContentItem>
-              <ContentItem>Api Reference</ContentItem>
+              <div>Documentation</div>
+              <div>Api Reference</div>
             </ContentGroup>
             <ContentGroup label="Company" width="450" height="200">
-              <ContentItem>About</ContentItem>
-              <ContentItem>Customers</ContentItem>
-              <ContentItem>Jobs</ContentItem>
+              <div>About</div>
+              <div>Customers</div>
+              <div>Jobs</div>
             </ContentGroup>
           </SiteNav>
         </header>

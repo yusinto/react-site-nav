@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-
 import styled, {keyframes} from 'styled-components';
 
 const gridColumnWidth = 100;
@@ -152,7 +151,7 @@ const FadeOutContent = keyframes`
     opacity: 0;
   }
 `;
-const ListContent = styled.ul`
+const ContentGroupContainer = styled.div`
   position: absolute;
   top: 0;
   margin-top: 0;
@@ -169,40 +168,27 @@ const ListContent = styled.ul`
 `;
 
 /**
- * Tentative shape of the object that drives the menu items
- */
-const MenuData = [
-  {label: 'products', width: 200, height: 200, items: ['Payments', 'Billing', 'Connect']},
-  {label: 'developers', width: 300, height: 400, items: ['Documentation', 'Api Reference']},
-  {label: 'company', width: 450, height: 200, items: ['About', 'Customers', 'Jobs']},
-];
-
-/**
  * Injects index and left properties into MenuData
  */
-const massageMenuData = () => {
-  return MenuData.map((m, i) => {
-    const result = {...m};
-    result.index = i;
-    result.left = (((i + 1) * gridColumnWidth) - (gridColumnWidth / 2)) - (m.width / 2);
-    return result;
+const massageMenuData = (children) => {
+  return React.Children.map(children, (child, i) => {
+    const childData = {...child.props};
+    childData.index = i;
+    childData.left = (((i + 1) * gridColumnWidth) - (gridColumnWidth / 2)) - (child.props.width / 2);
+    return childData;
   });
 };
 
 export const ContentGroup = ({label, width, height}) => {
   return <div>{label}: {width}x{height}</div>;
 };
-export const ContentItem = ({children}) => {
-  return <div>{children}</div>;
-};
-
 
 export default class SiteNav extends Component {
   state = {display: 'none', fadeOut: false, fromData: null, toData: null};
 
   constructor(props) {
     super(props);
-    this.menuDataMassaged = massageMenuData();
+    this.menuDataMassaged = massageMenuData(props.children);
   }
 
   onMouseEnter = (menuDataIndex) => {
@@ -234,13 +220,14 @@ export default class SiteNav extends Component {
   };
 
   render() {
+    const {children} = this.props;
     return (
       <nav>
         <GridContainer>
           <GridItem onMouseLeave={this.onMouseLeave}>
             {
-              this.menuDataMassaged.map((m, i) =>
-                <MenuTitle key={`menu-title-${i}`} onMouseEnter={() => this.onMouseEnter(i)}>{m.label}</MenuTitle>)
+              React.Children.map(children, (child, i) =>
+                <MenuTitle key={`menu-title-${i}`} onMouseEnter={() => this.onMouseEnter(i)}>{child.props.label}</MenuTitle>)
             }
             <MovingDiv display={this.state.display}
                        fadeOut={this.state.fadeOut}
@@ -252,15 +239,14 @@ export default class SiteNav extends Component {
               />
               <MovingDivContent>
                 {
-                  this.menuDataMassaged.map((m, i) =>
-                    <ListContent
+                  React.Children.map(children, (child, i) =>
+                    <ContentGroupContainer
+                      key={`content-group-${i}`}
                       coldStart={this.state.toData && this.state.toData.index === this.state.fromData.index}
                       show={this.state.toData && this.state.toData.index === i}
                     >
-                      {
-                        m.items.map((li, j) => <li key={`list-item-${i}-${j}`}>{li}</li>)
-                      }
-                    </ListContent>
+                      {child.props.children}
+                    </ContentGroupContainer>
                   )
                 }
               </MovingDivContent>
