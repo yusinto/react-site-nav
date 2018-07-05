@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import styled, {keyframes} from 'styled-components';
+import memoize from 'memoize-one';
 
 const gridColumnWidth = 100;
 const gridRowHeight = 30;
@@ -169,18 +170,6 @@ const ContentGroupContainer = styled.div`
   forwards;
 `;
 
-/**
- * Injects index and left properties into MenuData
- */
-const massageMenuData = (children) => {
-  return React.Children.map(children, (child, i) => {
-    const childData = {...child.props};
-    childData.index = i;
-    childData.left = (((i + 1) * gridColumnWidth) - (gridColumnWidth / 2)) - (child.props.width / 2);
-    return childData;
-  });
-};
-
 export const ContentGroup = ({label, width, height}) => {
   return <div>{label}: {width}x{height}</div>;
 };
@@ -188,16 +177,35 @@ export const ContentGroup = ({label, width, height}) => {
 export default class SiteNav extends Component {
   state = {display: 'none', fadeOut: false, fromData: null, toData: null};
 
-  constructor(props) {
-    super(props);
-    this.menuDataMassaged = massageMenuData(props.children);
-  }
+  /**
+   * Injects index and left properties into MenuData
+   */
+  memoizeMenuData = memoize(children => React.Children.map(children, (child, i) => ({
+    ...child.props,
+    index: i,
+    left: (((i + 1) * gridColumnWidth) - (gridColumnWidth / 2)) - (child.props.width / 2),
+  })));
+
+  memoizePrimary = memoize(children => React.Children.map(children, (child, i) =>
+    <MenuTitle key={`menu-title-${i}`}
+               onMouseEnter={() => this.onMouseEnter(i)}>{child.props.label}</MenuTitle>
+  ));
+
+  memoizeContent = memoize((children, fromData, toData) => React.Children.map(children, (child, i) =>
+    <ContentGroupContainer
+      key={`content-group-${i}`}
+      coldStart={toData && toData.index === fromData.index}
+      show={toData && toData.index === i}
+    >
+      {child.props.children}
+    </ContentGroupContainer>
+  ));
 
   onMouseEnter = (menuDataIndex) => {
     this.setState((prevState) => {
       const fadeOut = false;
       const display = 'block';
-      const toData = this.menuDataMassaged[menuDataIndex];
+      const toData = this.memoizeMenuData(this.props.children)[menuDataIndex];
 
       let fromData;
       if (prevState.fadeOut || !prevState.toData) {
@@ -223,14 +231,16 @@ export default class SiteNav extends Component {
 
   render() {
     const {children} = this.props;
+    const {fromData, toData} = this.state;
+
+    const primaryLabels = this.memoizePrimary(children);
+    const content = this.memoizeContent(children, fromData, toData);
+
     return (
       <nav>
         <GridContainer>
           <GridItem onMouseLeave={this.onMouseLeave}>
-            {
-              React.Children.map(children, (child, i) =>
-                <MenuTitle key={`menu-title-${i}`} onMouseEnter={() => this.onMouseEnter(i)}>{child.props.label}</MenuTitle>)
-            }
+            {primaryLabels}
             <MovingDiv display={this.state.display}
                        fadeOut={this.state.fadeOut}
                        fromData={this.state.fromData}
@@ -240,17 +250,7 @@ export default class SiteNav extends Component {
                        toData={this.state.toData}
               />
               <MovingDivContent>
-                {
-                  React.Children.map(children, (child, i) =>
-                    <ContentGroupContainer
-                      key={`content-group-${i}`}
-                      coldStart={this.state.toData && this.state.toData.index === this.state.fromData.index}
-                      show={this.state.toData && this.state.toData.index === i}
-                    >
-                      {child.props.children}
-                    </ContentGroupContainer>
-                  )
-                }
+                {content}
               </MovingDivContent>
             </MovingDiv>
           </GridItem>
