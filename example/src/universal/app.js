@@ -3,6 +3,33 @@ import {Switch, Link, Route, Redirect} from 'react-router-dom';
 import Home from './home';
 import Contact from './contact';
 import SiteNav, {ContentGroup} from './siteNav';
+import styled from 'styled-components';
+
+const ContentList = styled.ul`
+  list-style-type: none;
+  margin-top: 10px;
+  margin-left: 10px;
+  padding: 0;
+`;
+
+const ListItem = styled.li`
+  display: flex;
+  flex-direction: row;
+  margin: 10px
+`;
+
+const LisItemHeadingText = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 13px;
+  margin-left: 10px;
+`;
+
+const ListItemHeading = styled.div`
+  font-size: 15px;
+  font-weight: 400;
+`;
 
 export default class App extends Component {
   render() {
@@ -10,21 +37,46 @@ export default class App extends Component {
       <div>
         <header>
           <SiteNav>
-            <ContentGroup label="Products" width="200" height="200">
-              <ul>
-                <li>Payments</li>
-                <li>Billing</li>
-                <li>Connect</li>
-              </ul>
+            <ContentGroup label="Products" width="400" height="170">
+              <ContentList>
+                <ListItem>
+                  <img src="https://booster.io/wp-content/uploads/payment-gateways-icons.png"
+                       width={40} height={40}/>
+                  <LisItemHeadingText>
+                    <ListItemHeading>PAYMENTS</ListItemHeading>
+                    <div>A complete payments platform engineered for growth.</div>
+                  </LisItemHeadingText>
+                </ListItem>
+                <ListItem>
+                  <img src="https://main.yhlsoft.com/main/images/Billing-Icon-darkblue-min.png"
+                       width={40} height={40}/>
+                  <LisItemHeadingText>
+                    <ListItemHeading>BILLING</ListItemHeading>
+                    <div>Build and scale your recurring business model.</div>
+                  </LisItemHeadingText>
+                </ListItem>
+                <ListItem>
+                  <img src="https://cdn2.iconfinder.com/data/icons/computer-roundline/512/share-512.png"
+                       width={40} height={40}/>
+                  <LisItemHeadingText>
+                    <ListItemHeading>CONNECT</ListItemHeading>
+                    <div>Everything platforms need to get sellers paid.</div>
+                  </LisItemHeadingText>
+                </ListItem>
+              </ContentList>
             </ContentGroup>
             <ContentGroup label="Developers" width="300" height="400">
-              <div>Documentation</div>
-              <div>Api Reference</div>
+              <ContentList>
+                <ListItem>Documentation</ListItem>
+                <ListItem>Api Reference</ListItem>
+              </ContentList>
             </ContentGroup>
             <ContentGroup label="Company" width="450" height="200">
-              <div>About</div>
-              <div>Customers</div>
-              <div>Jobs</div>
+              <ContentList>
+                <ListItem>About</ListItem>
+                <ListItem>Customers</ListItem>
+                <ListItem>Jobs</ListItem>
+              </ContentList>
             </ContentGroup>
           </SiteNav>
         </header>

@@ -156,6 +156,8 @@ const ContentGroupContainer = styled.div`
   top: 0;
   margin-top: 0;
   margin-bottom: 0;
+  width: 100%;
+  height: 100%;
   list-style-type: none;
   padding: 5px;
   opacity: ${({show}) => show ? 1 : 0};
