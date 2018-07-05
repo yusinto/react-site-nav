@@ -158,9 +158,9 @@ const ContentGroupContainer = styled.div`
   margin-bottom: 0;
   width: 100%;
   height: 100%;
-  list-style-type: none;
   padding: 5px;
   opacity: ${({show}) => show ? 1 : 0};
+  z-index: ${({show}) => show ? 1 : 0};
   animation: ${({coldStart, show}) => {
   if (coldStart) return ''; // just show without animation on cold start
   return show ? FadeInContent : FadeOutContent

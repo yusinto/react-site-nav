@@ -40,8 +40,10 @@ export default class App extends Component {
             <ContentGroup label="Products" width="400" height="170">
               <ContentList>
                 <ListItem>
-                  <img src="https://booster.io/wp-content/uploads/payment-gateways-icons.png"
-                       width={40} height={40}/>
+                  <Link to="/contact">
+                    <img src="https://booster.io/wp-content/uploads/payment-gateways-icons.png"
+                         width={40} height={40}/>
+                  </Link>
                   <LisItemHeadingText>
                     <ListItemHeading>PAYMENTS</ListItemHeading>
                     <div>A complete payments platform engineered for growth.</div>
@@ -90,6 +92,6 @@ export default class App extends Component {
           </Switch>
         </main>
       </div>
-    );
+  );
   }
-}
+  }
