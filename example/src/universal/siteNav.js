@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import styled, {keyframes} from 'styled-components';
 import memoize from 'memoize-one';
 
-const defaultColumns = 3;
 const defaultColumnWidth = 100;
 const defaultRowHeight = 30;
 const defaultBackground = '#6772e5';
+
 const arrowHeight = 5;
 const perspective = 850;
 
@@ -180,7 +180,6 @@ export default class SiteNav extends Component {
   state = {display: 'none', fadeOut: false, fromData: null, toData: null};
 
   static defaultProps = {
-    columns: defaultColumns,
     columnWidth: defaultColumnWidth,
     rowHeight: defaultRowHeight,
     background: defaultBackground,
@@ -209,6 +208,7 @@ export default class SiteNav extends Component {
       {child.props.children}
     </ContentGroupContainer>
   ));
+  memoizeColumns = memoize(children => React.Children.count(children));
 
   onMouseEnter = (menuDataIndex) => {
     this.setState((prevState) => {
@@ -238,8 +238,9 @@ export default class SiteNav extends Component {
   };
 
   render() {
-    const {columns, columnWidth, rowHeight, background, children} = this.props;
+    const {columnWidth, rowHeight, background, children} = this.props;
     const {fromData, toData} = this.state;
+    const columns = this.memoizeColumns(children);
     const primaryLabels = this.memoizePrimary(children);
     const content = this.memoizeContent(children, fromData, toData);
 
