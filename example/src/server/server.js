@@ -26,7 +26,7 @@ app.use((req, res) => {
                         <title>ld-react example</title>
                         ${styleTags}
                       </head>
-                      <body>
+                      <body style="margin:0">
                         <div id="reactDiv">${renderToString(
     <StaticRouter
       location={req.url}

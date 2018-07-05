@@ -2,8 +2,10 @@ import React, {Component} from 'react';
 import styled, {keyframes} from 'styled-components';
 import memoize from 'memoize-one';
 
-const gridColumnWidth = 100;
-const gridRowHeight = 30;
+const defaultColumns = 3;
+const defaultColumnWidth = 100;
+const defaultRowHeight = 30;
+const defaultBackground = '#6772e5';
 const arrowHeight = 5;
 const perspective = 850;
 
@@ -16,8 +18,10 @@ const fadeInContentSeconds = 0.1;
 
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(6, ${gridColumnWidth}px);
-  grid-template-rows: ${gridRowHeight}px;
+  justify-content: center;
+  grid-template-columns: repeat(${({columns}) => columns}, ${({columnWidth}) => columnWidth}px);
+  grid-template-rows: ${({rowHeight}) => rowHeight}px;
+  background: ${({background}) => background};
 `;
 const ArrowUp = styled.div`
   margin-left: ${({toData}) => toData ? (toData.width / 2) - arrowHeight : 0}px;
@@ -42,8 +46,8 @@ const MoveArrow = (fromData, toData) => keyframes`
   }
 `;
 const GridItem = styled.div`
-  background: #6772e5;
-  grid-column: 3 / span 3;
+  background: ${({background}) => background};
+  grid-column: 1 / span ${({columns}) => columns};
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -58,7 +62,6 @@ const MenuTitle = styled.div`
   flex-grow: 1;
   text-align: center;
 `;
-
 const Move = (fromData, toData) => keyframes`
   from {
     left: ${fromData.left}px;
@@ -99,10 +102,9 @@ const FadeOut = keyframes`
     z-index: -1; // HACK: do this so hidden div does not block other elements on the page! We should have set display: none here, but its too hard
   }
 `;
-
 const MovingDiv = styled.div`
   position: absolute;
-  top: ${gridRowHeight}px;
+  top: ${defaultRowHeight}px;
   left: ${({fromData}) => fromData ? fromData.left : 0}px;
   width: ${({fromData}) => fromData ? fromData.width : 0}px;
   height: ${({fromData}) => fromData ? fromData.height : 0}px;
@@ -177,20 +179,27 @@ export const ContentGroup = ({label, width, height}) => {
 export default class SiteNav extends Component {
   state = {display: 'none', fadeOut: false, fromData: null, toData: null};
 
+  static defaultProps = {
+    columns: defaultColumns,
+    columnWidth: defaultColumnWidth,
+    rowHeight: defaultRowHeight,
+    background: defaultBackground,
+  };
+
   /**
    * Injects index and left properties into MenuData
    */
-  memoizeMenuData = memoize(children => React.Children.map(children, (child, i) => ({
-    ...child.props,
-    index: i,
-    left: (((i + 1) * gridColumnWidth) - (gridColumnWidth / 2)) - (child.props.width / 2),
-  })));
-
+  memoizeMenuData = memoize((columnWidth, children) => React.Children.map(children, (child, i) => {
+    return {
+      ...child.props,
+      index: i,
+      left: (((i + 1) * columnWidth) - (columnWidth / 2)) - (child.props.width / 2),
+    };
+  }));
   memoizePrimary = memoize(children => React.Children.map(children, (child, i) =>
     <MenuTitle key={`menu-title-${i}`}
                onMouseEnter={() => this.onMouseEnter(i)}>{child.props.label}</MenuTitle>
   ));
-
   memoizeContent = memoize((children, fromData, toData) => React.Children.map(children, (child, i) =>
     <ContentGroupContainer
       key={`content-group-${i}`}
@@ -205,7 +214,7 @@ export default class SiteNav extends Component {
     this.setState((prevState) => {
       const fadeOut = false;
       const display = 'block';
-      const toData = this.memoizeMenuData(this.props.children)[menuDataIndex];
+      const toData = this.memoizeMenuData(this.props.columnWidth, this.props.children)[menuDataIndex];
 
       let fromData;
       if (prevState.fadeOut || !prevState.toData) {
@@ -224,22 +233,20 @@ export default class SiteNav extends Component {
       };
     });
   };
-
   onMouseLeave = () => {
     this.setState((prevState) => ({fadeOut: true, fromData: prevState.toData}));
   };
 
   render() {
-    const {children} = this.props;
+    const {columns, columnWidth, rowHeight, background, children} = this.props;
     const {fromData, toData} = this.state;
-
     const primaryLabels = this.memoizePrimary(children);
     const content = this.memoizeContent(children, fromData, toData);
 
     return (
       <nav>
-        <GridContainer>
-          <GridItem onMouseLeave={this.onMouseLeave}>
+        <GridContainer background={background} columns={columns} columnWidth={columnWidth} rowHeight={rowHeight}>
+          <GridItem background={background} columns={columns} onMouseLeave={this.onMouseLeave}>
             {primaryLabels}
             <MovingDiv display={this.state.display}
                        fadeOut={this.state.fadeOut}
