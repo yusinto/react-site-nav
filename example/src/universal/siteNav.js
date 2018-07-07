@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import styled, {keyframes} from 'styled-components';
+import styled, {keyframes, css} from 'styled-components';
 import memoize from 'memoize-one';
+import kebabCase from 'lodash.kebabcase';
 
 const defaultRootAlign = 'center';
 const defaultColumnWidth = 100;
@@ -17,6 +18,15 @@ const moveArrowSeconds = 0.25;
 const fadeOutContentSeconds = 0.29;
 const fadeInContentSeconds = 0.1;
 
+// const setCssProperty = (camelCaseKey, kebabCaseKey) => css`
+//   ${props => {
+//   const kebab = kebabCaseKey ? kebabCaseKey : kebabCase(camelCaseKey);
+//   return props[camelCaseKey] ? `${kebab}: ${props[camelCaseKey]};` : null
+// }}`;
+
+const setCssProperty = camelCaseKey => css`
+  ${props => props[camelCaseKey] ? `${kebabCase(camelCaseKey)}: ${props[camelCaseKey]};` : null}`;
+
 const GridContainer = styled.div`
   display: grid;
   justify-content: ${({justifyContent}) => justifyContent};
@@ -25,13 +35,15 @@ const GridContainer = styled.div`
   grid-template-rows: ${({rowHeight}) => rowHeight}px;
   background: ${({background}) => background};
   position: relative;
+  ${setCssProperty('fontSize')}
+  ${setCssProperty('fontFamily')}
+  ${setCssProperty('color')}
 `;
-const MenuTitle = styled.div`
+const GridItem = styled.div`
   grid-column: ${props => props.index + 1} / span 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #fff;
   &:hover {
     opacity: 0.5;
   }
@@ -173,8 +185,8 @@ const ContentGroupContainer = styled.div`
   forwards;
 `;
 
-export const ContentGroup = ({label, width, height}) => {
-  return <div>{label}: {width}x{height}</div>;
+export const ContentGroup = ({title, width, height}) => {
+  return <div>{title}: {width}x{height}</div>;
 };
 
 export default class SiteNav extends Component {
@@ -197,12 +209,12 @@ export default class SiteNav extends Component {
       left: (((i + 1) * columnWidth) - (columnWidth / 2)) - (child.props.width / 2),
     };
   }));
-  memoizeRootItems = memoize(children => React.Children.map(children, (child, i) =>
-    <MenuTitle key={`menu-title-${i}`}
-               index={i}
-               onMouseEnter={() => this.onMouseEnter(i)}>
-      {child.props.label}
-    </MenuTitle>
+  memoizeGridItems = memoize(children => React.Children.map(children, (child, i) =>
+    <GridItem key={`menu-title-${i}`}
+              index={i}
+              onMouseEnter={() => this.onMouseEnter(i)}>
+      {child.props.title}
+    </GridItem>
   ));
   memoizeContent = memoize((children, fromData, toData) => React.Children.map(children, (child, i) =>
     <ContentGroupContainer
@@ -253,10 +265,10 @@ export default class SiteNav extends Component {
   };
 
   render() {
-    const {columnWidth, rowHeight, background, children, align} = this.props;
+    const {columnWidth, rowHeight, background, children, align, fontSize, fontFamily, color} = this.props;
     const {fromData, toData} = this.state;
     const columns = this.memoizeColumns(children);
-    const rootItems = this.memoizeRootItems(children);
+    const gridItems = this.memoizeGridItems(children);
     const content = this.memoizeContent(children, fromData, toData);
     const justifyContent = this.memoizeAlign(align);
 
@@ -264,13 +276,18 @@ export default class SiteNav extends Component {
       <nav>
         <GridContainer
           background={background}
-          columns={columns}
           columnWidth={columnWidth}
           rowHeight={rowHeight}
           justifyContent={justifyContent}
+          fontSize={fontSize}
+          fontFamily={fontFamily}
+          color={color}
+
+          /* Below are not configurable */
           onMouseLeave={this.onMouseLeave}
+          columns={columns}
         >
-          {rootItems}
+          {gridItems}
           <ContentRow columns={columns}>
             <MovingDiv display={this.state.display}
                        fadeOut={this.state.fadeOut}

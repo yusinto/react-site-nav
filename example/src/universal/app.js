@@ -36,8 +36,16 @@ export default class App extends Component {
     return (
       <div>
         <header>
-          <SiteNav>
-            <ContentGroup label="Products" width="400" height="170">
+          <SiteNav
+            background="#323232"
+            fontSize="20px"
+            fontFamily="Gill Sans, sans-serif"
+            color="#fff"
+            columnWidth={150}
+            rowHeight={55}
+            align="left"
+          >
+            <ContentGroup title="Products" width="400" height="170">
               <ContentList>
                 <ListItem>
                   <Link to="/contact">
@@ -67,20 +75,20 @@ export default class App extends Component {
                 </ListItem>
               </ContentList>
             </ContentGroup>
-            <ContentGroup label="Developers" width="300" height="400">
+            <ContentGroup title="Developers" width="300" height="400">
               <ContentList>
                 <ListItem>Documentation</ListItem>
                 <ListItem>Api Reference</ListItem>
               </ContentList>
             </ContentGroup>
-            <ContentGroup label="Company" width="450" height="200">
+            <ContentGroup title="Company" width="450" height="200">
               <ContentList>
                 <ListItem>About</ListItem>
                 <ListItem>Customers</ListItem>
                 <ListItem>Jobs</ListItem>
               </ContentList>
             </ContentGroup>
-            <ContentGroup label="Pricing" width="450" height="200">
+            <ContentGroup title="Pricing" width="450" height="200">
               <ContentList>
                 <ListItem>About</ListItem>
                 <ListItem>Customers</ListItem>
