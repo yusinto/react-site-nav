@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import styled, {keyframes} from 'styled-components';
 import memoize from 'memoize-one';
 
+const defaultRootAlign = 'center';
 const defaultColumnWidth = 100;
 const defaultRowHeight = 30;
 const defaultBackground = '#6772e5';
@@ -18,10 +19,28 @@ const fadeInContentSeconds = 0.1;
 
 const GridContainer = styled.div`
   display: grid;
-  justify-content: center;
+  justify-content: ${({justifyContent}) => justifyContent};
+  justify-items: stretch;
   grid-template-columns: repeat(${({columns}) => columns}, ${({columnWidth}) => columnWidth}px);
   grid-template-rows: ${({rowHeight}) => rowHeight}px;
   background: ${({background}) => background};
+  position: relative;
+`;
+const MenuTitle = styled.div`
+  grid-column: ${props => props.index + 1} / span 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  &:hover {
+    opacity: 0.5;
+  }
+`;
+const ContentRow = styled.div`
+  grid-column: 1 / span ${({columns}) => columns};
+  grid-row: 2 / span 1;
+  position: relative;
+  height: 0;
 `;
 const ArrowUp = styled.div`
   margin-left: ${({toData}) => toData ? (toData.width / 2) - arrowHeight : 0}px;
@@ -44,23 +63,6 @@ const MoveArrow = (fromData, toData) => keyframes`
   to {
     margin-left: ${(toData.width / 2) - arrowHeight}px;
   }
-`;
-const GridItem = styled.div`
-  background: ${({background}) => background};
-  grid-column: 1 / span ${({columns}) => columns};
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  color: #fff;
-  position: relative;
-`;
-const MenuTitle = styled.div`
-  &:hover {
-    opacity: 0.5;
-  }
-  flex-grow: 1;
-  text-align: center;
 `;
 const Move = (fromData, toData) => keyframes`
   from {
@@ -104,7 +106,6 @@ const FadeOut = keyframes`
 `;
 const MovingDiv = styled.div`
   position: absolute;
-  top: ${defaultRowHeight}px;
   left: ${({fromData}) => fromData ? fromData.left : 0}px;
   width: ${({fromData}) => fromData ? fromData.width : 0}px;
   height: ${({fromData}) => fromData ? fromData.height : 0}px;
@@ -180,6 +181,7 @@ export default class SiteNav extends Component {
   state = {display: 'none', fadeOut: false, fromData: null, toData: null};
 
   static defaultProps = {
+    align: defaultRootAlign,
     columnWidth: defaultColumnWidth,
     rowHeight: defaultRowHeight,
     background: defaultBackground,
@@ -195,9 +197,12 @@ export default class SiteNav extends Component {
       left: (((i + 1) * columnWidth) - (columnWidth / 2)) - (child.props.width / 2),
     };
   }));
-  memoizePrimary = memoize(children => React.Children.map(children, (child, i) =>
+  memoizeRootItems = memoize(children => React.Children.map(children, (child, i) =>
     <MenuTitle key={`menu-title-${i}`}
-               onMouseEnter={() => this.onMouseEnter(i)}>{child.props.label}</MenuTitle>
+               index={i}
+               onMouseEnter={() => this.onMouseEnter(i)}>
+      {child.props.label}
+    </MenuTitle>
   ));
   memoizeContent = memoize((children, fromData, toData) => React.Children.map(children, (child, i) =>
     <ContentGroupContainer
@@ -209,6 +214,16 @@ export default class SiteNav extends Component {
     </ContentGroupContainer>
   ));
   memoizeColumns = memoize(children => React.Children.count(children));
+  memoizeAlign = memoize(align => {
+    switch (align) {
+      case 'left':
+        return 'start';
+      case 'right':
+        return 'end';
+      default:
+        return 'center';
+    }
+  });
 
   onMouseEnter = (menuDataIndex) => {
     this.setState((prevState) => {
@@ -238,17 +253,25 @@ export default class SiteNav extends Component {
   };
 
   render() {
-    const {columnWidth, rowHeight, background, children} = this.props;
+    const {columnWidth, rowHeight, background, children, align} = this.props;
     const {fromData, toData} = this.state;
     const columns = this.memoizeColumns(children);
-    const primaryLabels = this.memoizePrimary(children);
+    const rootItems = this.memoizeRootItems(children);
     const content = this.memoizeContent(children, fromData, toData);
+    const justifyContent = this.memoizeAlign(align);
 
     return (
       <nav>
-        <GridContainer background={background} columns={columns} columnWidth={columnWidth} rowHeight={rowHeight}>
-          <GridItem background={background} columns={columns} onMouseLeave={this.onMouseLeave}>
-            {primaryLabels}
+        <GridContainer
+          background={background}
+          columns={columns}
+          columnWidth={columnWidth}
+          rowHeight={rowHeight}
+          justifyContent={justifyContent}
+          onMouseLeave={this.onMouseLeave}
+        >
+          {rootItems}
+          <ContentRow columns={columns}>
             <MovingDiv display={this.state.display}
                        fadeOut={this.state.fadeOut}
                        fromData={this.state.fromData}
@@ -261,7 +284,7 @@ export default class SiteNav extends Component {
                 {content}
               </MovingDivContent>
             </MovingDiv>
-          </GridItem>
+          </ContentRow>
         </GridContainer>
       </nav>
     );
