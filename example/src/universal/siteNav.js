@@ -18,26 +18,20 @@ const moveArrowSeconds = 0.25;
 const fadeOutContentSeconds = 0.29;
 const fadeInContentSeconds = 0.1;
 
-// const setCssProperty = (camelCaseKey, kebabCaseKey) => css`
-//   ${props => {
-//   const kebab = kebabCaseKey ? kebabCaseKey : kebabCase(camelCaseKey);
-//   return props[camelCaseKey] ? `${kebab}: ${props[camelCaseKey]};` : null
-// }}`;
-
-const setCssProperty = camelCaseKey => css`
-  ${props => props[camelCaseKey] ? `${kebabCase(camelCaseKey)}: ${props[camelCaseKey]};` : null}`;
+const setFromProps = camelCaseKey => css`
+  ${props => props[camelCaseKey] ? `${kebabCase(camelCaseKey)}: ${props[camelCaseKey]}` : null}`;
 
 const GridContainer = styled.div`
   display: grid;
-  justify-content: ${({justifyContent}) => justifyContent};
+  ${setFromProps('justifyContent')};
   justify-items: stretch;
   grid-template-columns: repeat(${({columns}) => columns}, ${({columnWidth}) => columnWidth}px);
   grid-template-rows: ${({rowHeight}) => rowHeight}px;
-  background: ${({background}) => background};
   position: relative;
-  ${setCssProperty('fontSize')}
-  ${setCssProperty('fontFamily')}
-  ${setCssProperty('color')}
+  ${setFromProps('background')};
+  ${setFromProps('color')};  
+  ${setFromProps('fontFamily')};
+  ${setFromProps('fontSize')}px;  
 `;
 const GridItem = styled.div`
   grid-column: ${props => props.index + 1} / span 1;

@@ -3,8 +3,14 @@ import {Switch, Link, Route, Redirect} from 'react-router-dom';
 import Home from './home';
 import Contact from './contact';
 import SiteNav, {ContentGroup} from './siteNav';
-import styled from 'styled-components';
+import styled, {injectGlobal} from 'styled-components';
+import logo from '../../assets/logo.jpg';
 
+injectGlobal`
+  a {
+    text-decoration: none;
+  }
+`;
 const ContentList = styled.ul`
   list-style-type: none;
   margin-top: 10px;
@@ -31,19 +37,30 @@ const ListItemHeading = styled.div`
   font-weight: 400;
 `;
 
+const Header = styled.div`
+  display: grid;
+  grid-template-columns: 100px auto 100px;
+  grid-template-rows: 80px;
+`;
+
 export default class App extends Component {
   render() {
     return (
       <div>
         <header>
+          <Header>
+            <Link to="/">
+              <img style={{height: '70px', marginLeft: '20px', marginTop: '5px'}} src={logo}/>
+            </Link>
+          </Header>
           <SiteNav
             background="#323232"
-            fontSize="20px"
-            fontFamily="Gill Sans, sans-serif"
+            fontSize={16}
+            fontFamily="Helvetica, sans-serif"
             color="#fff"
             columnWidth={150}
             rowHeight={55}
-            align="left"
+            align="center"
           >
             <ContentGroup title="Products" width="400" height="170">
               <ContentList>
@@ -53,8 +70,10 @@ export default class App extends Component {
                          width={40} height={40}/>
                   </Link>
                   <LisItemHeadingText>
-                    <ListItemHeading>PAYMENTS</ListItemHeading>
-                    <div>A complete payments platform engineered for growth.</div>
+                    <Link to="/contact">
+                      <ListItemHeading>PAYMENTS</ListItemHeading>
+                      <div>A complete payments platform engineered for growth.</div>
+                    </Link>
                   </LisItemHeadingText>
                 </ListItem>
                 <ListItem>
@@ -107,6 +126,6 @@ export default class App extends Component {
           </Switch>
         </main>
       </div>
-  );
+    );
   }
-  }
+}
