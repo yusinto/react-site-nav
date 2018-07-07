@@ -27,5 +27,8 @@
   "bugs": {
     "url": "https://github.com/yusinto/react-site-nav/issues"
   },
-  "homepage": "https://github.com/yusinto/react-site-nav#readme"
+  "homepage": "https://github.com/yusinto/react-site-nav#readme",
+  "devDependencies": {
+    "rimraf": "^2.6.2"
+  }
 }
