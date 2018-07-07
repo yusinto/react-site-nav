@@ -55,11 +55,11 @@ export default class App extends Component {
           </Header>
           <SiteNav
             background="#323232"
-            fontSize={16}
+            fontSize={14}
             fontFamily="Helvetica, sans-serif"
             color="#fff"
             columnWidth={150}
-            rowHeight={55}
+            rowHeight={35}
             align="center"
           >
             <ContentGroup title="Products" width="400" height="170">

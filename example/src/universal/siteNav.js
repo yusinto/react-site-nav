@@ -112,6 +112,7 @@ const FadeOut = keyframes`
 `;
 const MovingDiv = styled.div`
   position: absolute;
+  top: -10px;
   left: ${({fromData}) => fromData ? fromData.left : 0}px;
   width: ${({fromData}) => fromData ? fromData.width : 0}px;
   height: ${({fromData}) => fromData ? fromData.height : 0}px;
