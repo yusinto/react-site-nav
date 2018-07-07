@@ -1,5 +1,5 @@
 {
-  "name": "react-site-menu",
+  "name": "react-site-nav",
   "version": "0.0.1",
   "description": "A kick ass site menu using styled components and css animations inspired by Stripe.",
   "main": "index.js",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yusinto/react-site-menu.git"
+    "url": "git+https://github.com/yusinto/react-site-nav.git"
   },
   "keywords": [
     "react",
@@ -25,7 +25,7 @@
   "author": "Yusinto Ngadiman",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/yusinto/react-site-menu/issues"
+    "url": "https://github.com/yusinto/react-site-nav/issues"
   },
-  "homepage": "https://github.com/yusinto/react-site-menu#readme"
+  "homepage": "https://github.com/yusinto/react-site-nav#readme"
 }
