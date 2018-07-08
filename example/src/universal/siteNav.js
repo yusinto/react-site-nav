@@ -8,6 +8,7 @@ const defaultColumnWidth = 100;
 const defaultRowHeight = 30;
 const defaultBackground = '#6772e5';
 const defaultBreakpoint = 768;
+const defaultContentBackground = '#fff';
 
 const arrowHeight = 5;
 const perspective = 850;
@@ -59,11 +60,12 @@ const ArrowUp = styled.div`
   height: 0; 
   border-left: ${arrowHeight}px solid transparent;
   border-right: ${arrowHeight}px solid transparent;
-  border-bottom: ${arrowHeight}px solid #73AD21;
+  border-bottom: ${arrowHeight}px solid ${({background}) => background};
   animation: ${({fromData, toData}) => {
   if (fromData) return MoveArrow(fromData, toData);
   return '';
 }}
+  
   ${moveArrowSeconds}s forwards ease;
 `;
 const MoveArrow = (fromData, toData) => keyframes`
@@ -144,10 +146,11 @@ const MovingDiv = styled.div`
   forwards ease;
 `;
 const MovingDivContent = styled.div`
-  background: #73AD21;
-  border-radius: 5px;
+  ${setFromProps('background')};
+  border-radius: 4px;
   width: 100%;
   height: 100%;
+  box-shadow: 0px 8px 28px 1px rgba(138,126,138,0.67); // Ripped from: https://www.cssmatic.com/box-shadow
 `;
 const FadeInContent = keyframes`
   from {
@@ -198,6 +201,7 @@ export default class SiteNav extends Component {
     columnWidth: defaultColumnWidth,
     rowHeight: defaultRowHeight,
     background: defaultBackground,
+    contentBackground: defaultContentBackground,
     breakpoint: defaultBreakpoint,
   };
 
@@ -267,7 +271,7 @@ export default class SiteNav extends Component {
   onClickMovingDiv = () => this.close();
 
   render() {
-    const {columnWidth, rowHeight, background, children, align, fontSize, fontFamily, color, breakpoint} = this.props;
+    const {columnWidth, rowHeight, background, contentBackground, children, align, fontSize, fontFamily, color, breakpoint} = this.props;
     const {fromData, toData} = this.state;
     const columns = this.memoizeColumns(children);
     const gridItems = this.memoizeGridItems(children);
@@ -299,8 +303,9 @@ export default class SiteNav extends Component {
             >
               <ArrowUp fromData={this.state.fromData}
                        toData={this.state.toData}
+                       background={contentBackground}
               />
-              <MovingDivContent onClick={this.onClickMovingDiv}>
+              <MovingDivContent onClick={this.onClickMovingDiv} background={contentBackground}>
                 {content}
               </MovingDivContent>
             </MovingDiv>

@@ -10,12 +10,18 @@ injectGlobal`
   a {
     text-decoration: none;
   }
+  
+  a:visited {
+    color: lightslategray;
+  }
 `;
 const ContentList = styled.ul`
   list-style-type: none;
   margin-top: 10px;
   margin-left: 10px;
   padding: 0;
+  color: lightslategray;
+  
 `;
 
 const ListItem = styled.li`
@@ -41,6 +47,7 @@ const Header = styled.div`
   display: grid;
   grid-template-columns: 100px auto 100px;
   grid-template-rows: 80px;
+  background: #fff;
 `;
 
 export default class App extends Component {
