@@ -7,6 +7,7 @@ const defaultRootAlign = 'center';
 const defaultColumnWidth = 100;
 const defaultRowHeight = 30;
 const defaultBackground = '#6772e5';
+const defaultBreakpoint = 768;
 
 const arrowHeight = 5;
 const perspective = 850;
@@ -22,16 +23,20 @@ const setFromProps = camelCaseKey => css`
   ${props => props[camelCaseKey] ? `${kebabCase(camelCaseKey)}: ${props[camelCaseKey]}` : null}`;
 
 const GridContainer = styled.div`
-  display: grid;
-  ${setFromProps('justifyContent')};
-  justify-items: stretch;
-  grid-template-columns: repeat(${({columns}) => columns}, ${({columnWidth}) => columnWidth}px);
-  grid-template-rows: ${({rowHeight}) => rowHeight}px;
-  position: relative;
-  ${setFromProps('background')};
-  ${setFromProps('color')};  
-  ${setFromProps('fontFamily')};
-  ${setFromProps('fontSize')}px;  
+  display: none;
+  
+  @media(min-width: ${({breakpoint}) => breakpoint}px) {
+    display: grid;
+    ${setFromProps('justifyContent')};
+    justify-items: stretch;
+    grid-template-columns: repeat(${({columns}) => columns}, ${({columnWidth}) => columnWidth}px);
+    grid-template-rows: ${({rowHeight}) => rowHeight}px;
+    position: relative;
+    ${setFromProps('background')};
+    ${setFromProps('color')};  
+    ${setFromProps('fontFamily')};
+    ${setFromProps('fontSize')}px;  
+  }
 `;
 const GridItem = styled.div`
   grid-column: ${props => props.index + 1} / span 1;
@@ -192,6 +197,7 @@ export default class SiteNav extends Component {
     columnWidth: defaultColumnWidth,
     rowHeight: defaultRowHeight,
     background: defaultBackground,
+    breakpoint: defaultBreakpoint,
   };
 
   /**
@@ -260,7 +266,7 @@ export default class SiteNav extends Component {
   onClickMovingDiv = () => this.close();
 
   render() {
-    const {columnWidth, rowHeight, background, children, align, fontSize, fontFamily, color} = this.props;
+    const {columnWidth, rowHeight, background, children, align, fontSize, fontFamily, color, breakpoint} = this.props;
     const {fromData, toData} = this.state;
     const columns = this.memoizeColumns(children);
     const gridItems = this.memoizeGridItems(children);
@@ -277,6 +283,7 @@ export default class SiteNav extends Component {
           fontSize={fontSize}
           fontFamily={fontFamily}
           color={color}
+          breakpoint={breakpoint}
 
           /* Below are not configurable */
           onMouseLeave={this.onMouseLeave}
