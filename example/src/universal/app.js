@@ -107,11 +107,11 @@ export default class App extends Component {
                 <ListItem>Jobs</ListItem>
               </ContentList>
             </ContentGroup>
-            <ContentGroup title="Pricing" width="450" height="200">
+            <ContentGroup title="Pricing" width="250" height="100">
               <ContentList>
-                <ListItem>About</ListItem>
-                <ListItem>Customers</ListItem>
-                <ListItem>Jobs</ListItem>
+                <ListItem>Basic</ListItem>
+                <ListItem>Medium</ListItem>
+                <ListItem>Enterprise</ListItem>
               </ContentList>
             </ContentGroup>
           </SiteNav>

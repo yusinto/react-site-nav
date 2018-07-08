@@ -232,6 +232,7 @@ export default class SiteNav extends Component {
     }
   });
 
+  close = () => this.setState((prevState) => ({fadeOut: true, fromData: prevState.toData}));
   onMouseEnter = (menuDataIndex) => {
     this.setState((prevState) => {
       const fadeOut = false;
@@ -255,9 +256,8 @@ export default class SiteNav extends Component {
       };
     });
   };
-  onMouseLeave = () => {
-    this.setState((prevState) => ({fadeOut: true, fromData: prevState.toData}));
-  };
+  onMouseLeave = () => this.close();
+  onClickMovingDiv = () => this.close();
 
   render() {
     const {columnWidth, rowHeight, background, children, align, fontSize, fontFamily, color} = this.props;
@@ -292,7 +292,7 @@ export default class SiteNav extends Component {
               <ArrowUp fromData={this.state.fromData}
                        toData={this.state.toData}
               />
-              <MovingDivContent>
+              <MovingDivContent onClick={this.onClickMovingDiv}>
                 {content}
               </MovingDivContent>
             </MovingDiv>
