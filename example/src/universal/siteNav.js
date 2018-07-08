@@ -177,9 +177,10 @@ const ContentGroupContainer = styled.div`
   padding: 5px;
   opacity: ${({show}) => show ? 1 : 0};
   z-index: ${({show}) => show ? 1 : 0};
-  animation: ${({coldStart, show}) => {
-  if (coldStart) return ''; // just show without animation on cold start
-  return show ? FadeInContent : FadeOutContent
+  animation: ${({show, fadeOut}) => {
+  if(show) return FadeInContent;
+  if(fadeOut) return FadeOutContent;
+  return ''; // cold start and everything else just show without animation 
 }} 
   ${({show}) => show ? `${fadeInContentSeconds}` : `${fadeOutContentSeconds}`}s
   forwards;
@@ -220,8 +221,8 @@ export default class SiteNav extends Component {
   memoizeContent = memoize((children, fromData, toData) => React.Children.map(children, (child, i) =>
     <ContentGroupContainer
       key={`content-group-${i}`}
-      coldStart={toData && toData.index === fromData.index}
       show={toData && toData.index === i}
+      fadeOut={fromData && fromData.index === i}
     >
       {child.props.children}
     </ContentGroupContainer>
