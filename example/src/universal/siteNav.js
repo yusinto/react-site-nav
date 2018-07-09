@@ -25,7 +25,12 @@ const setFromProps = camelCaseKey => css`
   ${props => props[camelCaseKey] ? `${kebabCase(camelCaseKey)}: ${props[camelCaseKey]}` : null}`;
 
 const GridContainer = styled.div`
-  display: none;
+  // HACK: can't use display none because menu flashes when breakpoint changes for some reason!
+  @media(max-width: ${({breakpoint}) => (breakpoint - 1)}px) {
+    position: absolute;
+    opacity: 0;
+    z-index: -1;
+  }
   
   @media(min-width: ${({breakpoint}) => breakpoint}px) {
     display: grid;
@@ -182,8 +187,8 @@ const ContentGroupContainer = styled.div`
   opacity: ${({show}) => show ? 1 : 0};
   z-index: ${({show}) => show ? 1 : 0};
   animation: ${({show, fadeOut}) => {
-  if(show) return FadeInContent;
-  if(fadeOut) return FadeOutContent;
+  if (show) return FadeInContent;
+  if (fadeOut) return FadeOutContent;
   return ''; // cold start and everything else just show without animation 
 }} 
   ${({show}) => show ? `${fadeInContentSeconds}` : `${fadeOutContentSeconds}`}s
