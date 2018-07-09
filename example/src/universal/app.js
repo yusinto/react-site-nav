@@ -60,15 +60,7 @@ export default class App extends Component {
               <img style={{height: '70px', marginLeft: '20px', marginTop: '5px'}} src={logo}/>
             </Link>
           </Header>
-          <SiteNav
-            background="#323232"
-            fontSize={18}
-            fontFamily="Helvetica, sans-serif"
-            color="#fff"
-            columnWidth={150}
-            rowHeight={45}
-            align="center"
-          >
+          <SiteNav>
             <ContentGroup title="Products" width="400" height="170">
               <ContentList>
                 <ListItem>

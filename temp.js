@@ -11,7 +11,7 @@ const defaultBackground = '#323232';
 const defaultBreakpoint = 768;
 const defaultContentBackground = '#fff';
 
-const arrowHeight = 5;
+const arrowHeight = 15;
 const perspective = 850;
 
 const fadeOutSeconds = 0.34;
@@ -57,17 +57,17 @@ const ContentRow = styled.div`
 `;
 const ArrowUp = styled.div`
   margin-left: ${({toData}) => toData ? (toData.width / 2) - arrowHeight : 0}px;
-  width: 0; 
-  height: 0; 
-  border-left: ${arrowHeight}px solid transparent;
-  border-right: ${arrowHeight}px solid transparent;
-  border-bottom: ${arrowHeight}px solid ${({background}) => background};
+  width: ${arrowHeight}px; 
+  height: ${arrowHeight}px;
+  transform: rotate(45deg);
+  border-radius: 4px;
+  ${setFromProps('background')};
   animation: ${({fromData, toData}) => {
   if (fromData) return MoveArrow(fromData, toData);
   return '';
 }}
   
-  ${moveArrowSeconds}s forwards ease;
+  ${moveArrowSeconds}s forwards ease-out;
 `;
 const MoveArrow = (fromData, toData) => keyframes`
   from {
@@ -120,7 +120,7 @@ const FadeOut = keyframes`
 `;
 const MovingDiv = styled.div`
   position: absolute;
-  top: -10px;
+  top: -${arrowHeight / 3}px;
   left: ${({fromData}) => fromData ? fromData.left : 0}px;
   width: ${({fromData}) => fromData ? fromData.width : 0}px;
   height: ${({fromData}) => fromData ? fromData.height : 0}px;
@@ -148,10 +148,11 @@ const MovingDiv = styled.div`
 `;
 const MovingDivContent = styled.div`
   ${setFromProps('background')};
+  margin-top: ${arrowHeight / 3}px;
   border-radius: 4px;
   width: 100%;
   height: 100%;
-  box-shadow: 0px 8px 28px 1px rgba(138,126,138,0.67); // Ripped from: https://www.cssmatic.com/box-shadow
+  box-shadow: 0px 2px 7px 0px rgba(138,126,138,0.67); // Ripped from: https://www.cssmatic.com/box-shadow
 `;
 const FadeInContent = keyframes`
   from {
@@ -182,8 +183,8 @@ const ContentGroupContainer = styled.div`
   opacity: ${({show}) => show ? 1 : 0};
   z-index: ${({show}) => show ? 1 : 0};
   animation: ${({show, fadeOut}) => {
-  if(show) return FadeInContent;
-  if(fadeOut) return FadeOutContent;
+  if (show) return FadeInContent;
+  if (fadeOut) return FadeOutContent;
   return ''; // cold start and everything else just show without animation 
 }} 
   ${({show}) => show ? `${fadeInContentSeconds}` : `${fadeOutContentSeconds}`}s
@@ -267,6 +268,7 @@ export default class SiteNav extends Component {
         fromData,
         toData,
       };
+      server
     });
   };
   onMouseLeave = () => this.close();
