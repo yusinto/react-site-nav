@@ -13,7 +13,7 @@ yarn add react-site-nav
 ```js
 import React from 'react';
 import {Switch, Link, Route} from 'react-router-dom';
-import SiteNav, {ContentGroup} from 'react-site-nav';
+import SiteNav, {ContentGroup} from 'react-site-nav'; // do this
 import Home from './home';
 import MyStory from './myStory';
 
@@ -21,16 +21,21 @@ export default () =>
   (
     <div>
       <header>
+        {/*
+          1. Add SiteNav with ContentGroup as children.
+          2. Each ContentGroup will be rendered as a nav item.
+          3. You can add anything you want in a ContentGroup.
+        */}
         <SiteNav>
           <ContentGroup title="About" width="320" height="200">
-            <p>You can add anything in a ContentGroup. Like a list:</p>
             <ul>
+              {/* react router link! */}
               <li><Link to="/my-story">My Story</Link></li>
               <li>Another list item</li>
             </ul>
           </ContentGroup>
           <ContentGroup title="Contact" width="350" height="180">
-            This is free text. Followed by some links.<br/>
+            Free text followed by some links.<br/>
             <a href="mailto:yusinto@gmail.com">Email</a><br/>
             <a href="https://github.com/yusinto">Github</a>
           </ContentGroup>
