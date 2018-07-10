@@ -1,54 +1,33 @@
-import React, {Component} from 'react';
-import {Switch, Link, Route, Redirect} from 'react-router-dom';
+import React from 'react';
+import {Switch, Link, Route} from 'react-router-dom';
 import Home from './home';
-import SpaLink1 from './spaLink1';
-import SpaLink2 from './spaLink2';
+import MyStory from './myStory';
 import SiteNav, {ContentGroup} from 'react-site-nav';
-import './app.css';
-import logo from '../../assets/logo.jpg';
 
 export default () =>
   (
     <div>
       <header>
-        <div style={{width: '100%', background: 'white'}}>
-          <Link to="/">
-            <img style={{height: '70px', marginLeft: '20px', marginTop: '5px'}} src={logo}/>
-          </Link>
-        </div>
         <SiteNav>
-          <ContentGroup title="About" width="300" height="100">
+          <ContentGroup title="About" width="320" height="200">
+            <p>You can add anything within a ContentGroup.</p>
+            <p>Like a list:</p>
             <ul>
-              <li><Link to="/spa-link-1">Spa Link</Link></li>
-              <li><Link to="/spa-link-2">Another Spa Link</Link></li>
+              <li><Link to="/my-story">My Story</Link></li>
+              <li>Another list item</li>
             </ul>
           </ContentGroup>
-          <ContentGroup title="Contact" width="200" height="150">
-            <ul style={{listStyleType: 'none'}}>
-              <li>
-                <a href="mailto:yusinto@gmail.com">Email</a>
-              </li>
-              <li>
-                <a href="https://github.com/yusinto">Github</a>
-              </li>
-              <li>
-                <a href="https://twitter.com/yusinto">Twitter</a>
-              </li>
-              <li>
-                <a href="https://linkedin.com/in/yusinto">Tinkedin</a>
-              </li>
-            </ul>
+          <ContentGroup title="Contact" width="350" height="180">
+            This is free text. Followed by some links.<br/>
+            <a href="mailto:yusinto@gmail.com">Email</a><br/>
+            <a href="https://github.com/yusinto">Github</a>
           </ContentGroup>
         </SiteNav>
       </header>
       <main>
         <Switch>
           <Route exact path="/" component={Home}/>
-          <Route path="/home">
-            <Redirect to="/"/>
-          </Route>
-          <Route path="/spa-link-1" component={SpaLink1}/>
-          <Route path="/spa-link-2" component={SpaLink2}/>
+          <Route path="/my-story" component={MyStory}/>
         </Switch>
       </main>
     </div>
