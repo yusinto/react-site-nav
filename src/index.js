@@ -11,6 +11,8 @@ const defaultBackground = '#323232';
 const defaultBreakpoint = 768;
 const defaultContentBackground = '#fff';
 const defaultContentColor = '#323232';
+const defaultContentWidth = 320;
+const defaultContentHeight = 200;
 
 const arrowHeight = 5;
 const perspective = 850;
@@ -219,10 +221,14 @@ export default class SiteNav extends Component {
    * Injects index and left properties into MenuData
    */
   memoizeMenuData = memoize((columnWidth, children) => React.Children.map(children, (child, i) => {
+    // if width or height is not specified, add defaults
+    const width = child.props.width ? child.props.width : defaultContentWidth;
     return {
-      ...child.props,
+      height: defaultContentHeight,
+      ...child.props, // order is important here! spread child.props after height, followed by width.
+      width,
       index: i,
-      left: (((i + 1) * columnWidth) - (columnWidth / 2)) - (child.props.width / 2),
+      left: (((i + 1) * columnWidth) - (columnWidth / 2)) - (width / 2),
     };
   }));
   memoizeGridItems = memoize(children => React.Children.map(children, (child, i) =>
