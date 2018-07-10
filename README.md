@@ -23,8 +23,7 @@ export default () =>
       <header>
         <SiteNav>
           <ContentGroup title="About" width="320" height="200">
-            <p>You can add anything within a ContentGroup.</p>
-            <p>Like a list:</p>
+            <p>You can add anything in a ContentGroup. Like a list:</p>
             <ul>
               <li><Link to="/my-story">My Story</Link></li>
               <li>Another list item</li>
