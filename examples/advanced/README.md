@@ -1,5 +1,5 @@
-# ld-react
+# react-site-nav advacned example
 
-A simple spa demonstrating ld-react.
+A spa demonstrating advanced usage of react-site-nav.
 
 yarn && yarn start
