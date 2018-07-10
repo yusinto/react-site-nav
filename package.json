@@ -1,6 +1,6 @@
 {
   "name": "react-site-nav",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A kick ass site menu using styled components and css animations inspired by Stripe.",
   "main": "lib/index.js",
   "scripts": {
