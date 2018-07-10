@@ -20,10 +20,10 @@ import MyStory from './myStory';
 export default () =>
   (
     <div>
-      {/* 2. Add SiteNav with ContentGroup as children. */}
+      {/* 2. Add SiteNav with ContentGroup as children */}
       <SiteNav>
         <ContentGroup title="About">
-          {/* 3. You can add anything in a ContentGroup. */}
+          {/* 3. You can add anything in a ContentGroup */}
           <ul>
             {/* react router link! */}
             <li><Link to="/my-story">My Story</Link></li>

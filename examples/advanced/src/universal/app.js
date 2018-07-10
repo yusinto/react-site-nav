@@ -93,20 +93,20 @@ export default class App extends Component {
                 </ListItem>
               </ContentList>
             </ContentGroup>
-            <ContentGroup title="Developers" width="300" height="400">
+            <ContentGroup title="Developers" width="220" height="220">
               <ContentList>
                 <ListItem>Documentation</ListItem>
                 <ListItem>Api Reference</ListItem>
               </ContentList>
             </ContentGroup>
-            <ContentGroup title="Company" width="450" height="200">
+            <ContentGroup title="Company" width="300" height="250">
               <ContentList>
                 <ListItem>About</ListItem>
                 <ListItem>Customers</ListItem>
                 <ListItem>Jobs</ListItem>
               </ContentList>
             </ContentGroup>
-            <ContentGroup title="Pricing" width="250" height="100">
+            <ContentGroup title="Pricing" width="180" height="100">
               <ContentList>
                 <ListItem>Basic</ListItem>
                 <ListItem>Medium</ListItem>
