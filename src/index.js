@@ -10,6 +10,7 @@ const defaultRowHeight = 45;
 const defaultBackground = '#323232';
 const defaultBreakpoint = 768;
 const defaultContentBackground = '#fff';
+const defaultContentColor = '#323232';
 
 const arrowHeight = 5;
 const perspective = 850;
@@ -124,6 +125,7 @@ const FadeOut = keyframes`
   }
 `;
 const MovingDiv = styled.div`
+  ${setFromProps('color')};
   position: absolute;
   top: -10px;
   left: ${({fromData}) => fromData ? fromData.left : 0}px;
@@ -208,6 +210,7 @@ export default class SiteNav extends Component {
     rowHeight: defaultRowHeight,
     background: defaultBackground,
     contentBackground: defaultContentBackground,
+    contentColor: defaultContentColor,
     breakpoint: defaultBreakpoint,
     color: defaultColor,
   };
@@ -278,7 +281,10 @@ export default class SiteNav extends Component {
   onClickMovingDiv = () => this.close();
 
   render() {
-    const {columnWidth, rowHeight, background, contentBackground, children, align, fontSize, fontFamily, color, breakpoint} = this.props;
+    const {
+      columnWidth, rowHeight, background, contentBackground, contentColor,
+      children, align, fontSize, fontFamily, color, breakpoint
+    } = this.props;
     const {fromData, toData} = this.state;
     const columns = this.memoizeColumns(children);
     const gridItems = this.memoizeGridItems(children);
@@ -307,12 +313,14 @@ export default class SiteNav extends Component {
                        fadeOut={this.state.fadeOut}
                        fromData={this.state.fromData}
                        toData={this.state.toData}
+                       color={contentColor}
             >
               <ArrowUp fromData={this.state.fromData}
                        toData={this.state.toData}
                        background={contentBackground}
               />
-              <MovingDivContent onClick={this.onClickMovingDiv} background={contentBackground}>
+              <MovingDivContent onClick={this.onClickMovingDiv}
+                                background={contentBackground}>
                 {content}
               </MovingDivContent>
             </MovingDiv>

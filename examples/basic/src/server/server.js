@@ -11,20 +11,12 @@ const app = Express();
 app.use('/dist', Express.static('dist', {maxAge: '1d'}));
 
 app.use((req, res) => {
-  const sheet = new ServerStyleSheet();
-  const StyledApp =
-    <StyleSheetManager sheet={sheet.instance}>
-      <App/>
-    </StyleSheetManager>;
-  const styleTags = sheet.getStyleTags();
-
   const html = `<!DOCTYPE html>
                     <html>
                       <head>
                         <meta charset="utf-8">
                         <meta name="viewport" content="width=device-width, initial-scale=1">
-                        <title>React Site Nav</title>
-                        ${styleTags}
+                        <title>React Site Nav - Basic</title>
                       </head>
                       <body style="margin:0;background: #F6F9FC;">
                         <div id="reactDiv">${renderToString(

@@ -1,0 +1,37 @@
+h1 {
+
+}
+
+ul {
+    list-style-type: none;
+}
+
+li {
+    margin-top: 10px
+}
+
+a {
+    text-decoration: none;
+    color: #24b47e;
+}
+
+a:hover {
+    opacity: 0.5;
+}
+
+a:visited {
+    color: #6b7c93;
+}
+
+.header {
+    display: grid;
+    grid-template-columns: 100px auto 100px;
+    grid-template-rows: 80px;
+    background: #fff;
+}
+
+.logo {
+    height: 70px;
+    margin-left: 20px;
+    margin-top: 5px
+}
