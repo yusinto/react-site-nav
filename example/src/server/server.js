@@ -23,7 +23,7 @@ app.use((req, res) => {
                       <head>
                         <meta charset="utf-8">
                         <meta name="viewport" content="width=device-width, initial-scale=1">
-                        <title>ld-react example</title>
+                        <title>React Site Nav</title>
                         ${styleTags}
                       </head>
                       <body style="margin:0;background: #F6F9FC;">

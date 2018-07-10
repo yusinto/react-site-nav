@@ -29,6 +29,19 @@
   },
   "homepage": "https://github.com/yusinto/react-site-nav#readme",
   "devDependencies": {
+    "@babel/cli": "^7.0.0-beta.52",
+    "@babel/core": "^7.0.0-beta.52",
+    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.52",
+    "@babel/preset-env": "^7.0.0-beta.52",
+    "@babel/preset-react": "^7.0.0-beta.52",
+    "babel-plugin-styled-components": "^1.5.1",
+    "babel-preset-minify": "^0.4.3",
     "rimraf": "^2.6.2"
+  },
+  "dependencies": {
+    "lodash.kebabcase": "^4.1.1",
+    "memoize-one": "^4.0.0",
+    "react": "^16.4.1",
+    "styled-components": "^3.3.3"
   }
 }
