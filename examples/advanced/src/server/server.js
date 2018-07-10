@@ -26,7 +26,7 @@ app.use((req, res) => {
                         <title>React Site Nav - Advanced</title>
                         ${styleTags}
                       </head>
-                      <body style="margin:0;background: #F6F9FC;">
+                      <body>
                         <div id="reactDiv">${renderToString(
     <StaticRouter
       location={req.url}
