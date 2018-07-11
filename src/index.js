@@ -55,6 +55,7 @@ const GridItem = styled.div`
   align-items: center;
   &:hover {
     opacity: 0.5;
+    cursor: default;
   }
 `;
 const ContentRow = styled.div`

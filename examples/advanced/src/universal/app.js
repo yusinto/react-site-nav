@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Switch, Link, Route, Redirect} from 'react-router-dom';
 import Home from './home';
 import Contact from './contact';
-import SiteNav, {ContentGroup} from 'react-site-nav';
+import SiteNav, {ContentGroup} from './siteNav';
 import styled, {injectGlobal} from 'styled-components';
 import logo from '../../assets/logo-transparent.png';
 
@@ -53,8 +53,12 @@ const LisItemHeadingText = styled.div`
 `;
 
 const ListItemHeading = styled.div`
-  font-size: 15px;
-  font-weight: 400;
+  margin: 0;
+  color: #6772e5;
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 600;
+  letter-spacing: .025em;
 `;
 
 const Header = styled.div`
@@ -77,15 +81,16 @@ export default class App extends Component {
           <SiteNav background="transparent"
                    fontSize="18"
                    fontFamily="Helvetica, sans-serif"
+                   debug={true}
           >
-            <ContentGroup title="Products" width="360" height="200">
+            <ContentGroup title="Products" width="494" height="400">
               <ListContainer>
                 <List>
                   <li>
                     <Link to="/contact">
                       <ListItemContent>
                         <img src="https://booster.io/wp-content/uploads/payment-gateways-icons.png"
-                             width={40} height={40}/>
+                             width={48} height={48}/>
                         <LisItemHeadingText>
                           <ListItemHeading>PAYMENTS</ListItemHeading>
                           <div>A complete payments platform engineered.</div>
@@ -96,7 +101,7 @@ export default class App extends Component {
                   <li>
                     <ListItemContent>
                       <img src="https://main.yhlsoft.com/main/images/Billing-Icon-darkblue-min.png"
-                           width={40} height={40}/>
+                           width={48} height={48}/>
                       <LisItemHeadingText>
                         <ListItemHeading>BILLING</ListItemHeading>
                         <div>Build and scale your recurring business model.</div>
@@ -106,7 +111,7 @@ export default class App extends Component {
                   <li>
                     <ListItemContent>
                       <img src="https://cdn2.iconfinder.com/data/icons/computer-roundline/512/share-512.png"
-                           width={40} height={40}/>
+                           width={48} height={48}/>
                       <LisItemHeadingText>
                         <ListItemHeading>CONNECT</ListItemHeading>
                         <div>Everything platforms need to get sellers paid.</div>
@@ -129,11 +134,11 @@ export default class App extends Component {
                 <li>Jobs</li>
               </List>
             </ContentGroup>
-            <ContentGroup title="Pricing" width="180" height="100">
+            <ContentGroup title="Pricing" width="300" height="250">
               <List>
-                <li>Basic</li>
-                <li>Medium</li>
+                <li>Individual</li>
                 <li>Enterprise</li>
+                <li>Free trial</li>
               </List>
             </ContentGroup>
           </SiteNav>
