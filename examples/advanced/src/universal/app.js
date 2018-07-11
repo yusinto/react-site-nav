@@ -42,13 +42,16 @@ const List = styled.ul`
 const ListItemContent = styled.div`
   display: flex;
   flex-direction: row;
+  &:hover {
+    opacity: 0.7;
+  }
 `;
 
 const LisItemHeadingText = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  font-size: 13px;
+  font-size: 15px;
   margin-left: 10px;
 `;
 
@@ -81,9 +84,9 @@ export default class App extends Component {
           <SiteNav background="transparent"
                    fontSize="18"
                    fontFamily="Helvetica, sans-serif"
-                   debug={true}
+                   debug={false}
           >
-            <ContentGroup title="Products" width="494" height="400">
+            <ContentGroup title="Products" width="420" height="270">
               <ListContainer>
                 <List>
                   <li>
@@ -121,11 +124,23 @@ export default class App extends Component {
                 </List>
               </ListContainer>
             </ContentGroup>
-            <ContentGroup title="Developers" width="220" height="220">
-              <List>
-                <li>Documentation</li>
-                <li>Api Reference</li>
-              </List>
+            <ContentGroup title="Developers" width="370" height="220">
+              <ListContainer>
+                <List>
+                  <li>
+                    <Link to="/contact">
+                      <ListItemContent>
+                        <img src="https://booster.io/wp-content/uploads/payment-gateways-icons.png"
+                             width={24} height={24}/>
+                        <LisItemHeadingText>
+                          <ListItemHeading>DOCUMENTATION</ListItemHeading>
+                          <div>Start integrating Stripe's products and tools.</div>
+                        </LisItemHeadingText>
+                      </ListItemContent>
+                    </Link>
+                  </li>
+                </List>
+              </ListContainer>
             </ContentGroup>
             <ContentGroup title="Company" width="300" height="250">
               <List>
