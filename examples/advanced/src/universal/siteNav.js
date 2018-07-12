@@ -1,3 +1,4 @@
+// This file is here for debugging purposes only! Install the package from npm.
 import React, {Component} from 'react';
 import styled, {keyframes, css} from 'styled-components';
 import memoize from 'memoize-one';

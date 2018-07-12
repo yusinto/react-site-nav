@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Switch, Link, Route, Redirect} from 'react-router-dom';
 import Home from '../home';
 import Contact from '../contact';
-import SiteNav, {ContentGroup} from '../siteNav';
+import SiteNav, {ContentGroup} from 'react-site-nav';
 import styled, {injectGlobal} from 'styled-components';
 import logo from '../../../assets/logo-transparent.png';
 import ProductsContentGroup from './products';

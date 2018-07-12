@@ -6156,12 +6156,27 @@ react-router@^4.2.0:
     prop-types "^15.5.4"
     warning "^3.0.0"
 
-"react-site-nav@file:../../lib":
-  version "0.0.0"
+react-site-nav@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/react-site-nav/-/react-site-nav-0.1.1.tgz#d0796f6061f83bc236e2593a11a51db2b7799342"
+  dependencies:
+    lodash.kebabcase "^4.1.1"
+    memoize-one "^4.0.0"
+    react "^16.4.1"
+    styled-components "^3.3.3"
 
 react@^16.4.0:
   version "16.4.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.4.0.tgz#402c2db83335336fba1962c08b98c6272617d585"
+  dependencies:
+    fbjs "^0.8.16"
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.0"
+
+react@^16.4.1:
+  version "16.4.1"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.4.1.tgz#de51ba5764b5dbcd1f9079037b862bd26b82fe32"
   dependencies:
     fbjs "^0.8.16"
     loose-envify "^1.1.0"
