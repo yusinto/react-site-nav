@@ -4,6 +4,9 @@
 
 > **A beautiful site navigation bar to be proud of. Powered by styled components inspired by stripe.com** :tada:
 
+Check out the live preview [here](https://now-evztwufdfm.now.sh){:target="_blank"} 
+(powered by [now](https://zeit.co/now){:target="_blank"}.)
+
 ![react-site-nav-clip](/animated.gif)
 
 Your search for the perfect site navigation bar ends here. Finally a world class navigation bar 
