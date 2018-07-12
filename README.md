@@ -4,6 +4,9 @@
 
 > **A beautifully animated nav bar to be proud of. Powered by styled components inspired by stripe.com** :tada:
 
+<iframe src='https://gfycat.com/ifr/HappygoluckyHilariousBoutu' frameborder='0' scrolling='no' width='1764' height='964' allowfullscreen>
+</iframe>
+
 ## Installation
 
 yarn add react-site-nav
