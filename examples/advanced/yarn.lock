@@ -1233,9 +1233,9 @@ babel-core@^6.26.0:
     slash "^1.0.0"
     source-map "^0.5.6"
 
-babel-eslint@^8.2.3:
-  version "8.2.3"
-  resolved "https://registry.yarnpkg.com/babel-eslint/-/babel-eslint-8.2.3.tgz#1a2e6681cc9bc4473c32899e59915e19cd6733cf"
+babel-eslint@^8.2.5:
+  version "8.2.5"
+  resolved "https://registry.yarnpkg.com/babel-eslint/-/babel-eslint-8.2.5.tgz#dc2331c259d36782aa189da510c43dedd5adc7a3"
   dependencies:
     "@babel/code-frame" "7.0.0-beta.44"
     "@babel/traverse" "7.0.0-beta.44"
@@ -6259,9 +6259,9 @@ react-router@^4.3.1:
     prop-types "^15.6.1"
     warning "^4.0.1"
 
-react-site-nav@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/react-site-nav/-/react-site-nav-0.1.1.tgz#d0796f6061f83bc236e2593a11a51db2b7799342"
+react-site-nav@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/react-site-nav/-/react-site-nav-0.1.2.tgz#e3d73459237de53a00d0557f4d5a167a3c814b54"
   dependencies:
     lodash.kebabcase "^4.1.1"
     memoize-one "^4.0.0"

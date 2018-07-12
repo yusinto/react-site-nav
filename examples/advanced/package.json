@@ -39,7 +39,7 @@
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-router-dom": "^4.3.1",
-    "react-site-nav": "^0.1.1",
+    "react-site-nav": "^0.1.2",
     "styled-components": "^3.3.3"
   },
   "devDependencies": {
@@ -48,7 +48,7 @@
     "@babel/plugin-proposal-class-properties": "^7.0.0-beta.53",
     "@babel/preset-env": "^7.0.0-beta.53",
     "@babel/preset-react": "^7.0.0-beta.53",
-    "babel-eslint": "^8.2.3",
+    "babel-eslint": "^8.2.5",
     "babel-loader": "^8.0.0-beta",
     "eslint": "^5.1.0",
     "eslint-config-airbnb": "^17.0.0",
