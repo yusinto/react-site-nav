@@ -34,19 +34,25 @@ const HeadingText = styled.div`
 const Text = styled.div`
   font-size: 13px;
 `;
+const StyledLink = styled.a`
+  display: flex;
+  align-items: center;
+  &:hover {
+    opacity: 0.7;
+  }
+`;
+
 export default () => {
   return (
     <List>
       <ListItem>
-        <a href="https://github.com/yusinto/react-site-nav">
+        <StyledLink href="https://github.com/yusinto/react-site-nav">
           <img src={smiley} width={24} height={24}/>
-        </a>
-        <a href="https://github.com/yusinto/react-site-nav">
           <HeadingText>
             <Heading>STAR IT!</Heading>
             <Text>github.com/yusinto/react-site-nav</Text>
           </HeadingText>
-        </a>
+        </StyledLink>
       </ListItem>
     </List>
   );

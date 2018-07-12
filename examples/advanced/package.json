@@ -8,7 +8,7 @@
     "lint": "eslint ./src",
     "serve": "webpack-serve webpack.config.server",
     "build": "rimraf now/build/* && webpack --config webpack.prod.config.js",
-    "deploy": "cd ./now && now"
+    "now": "npm run build && cd ./now && now --public"
   },
   "repository": {
     "type": "git",

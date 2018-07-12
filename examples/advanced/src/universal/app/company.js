@@ -26,12 +26,22 @@ const Heading = styled.div`
   letter-spacing: .025em;
   margin-left: 10px;
 `;
+const StyledLink = styled.a`
+  display: flex;
+  align-items: center;
+  &:hover {
+    opacity: 0.7;
+  }
+`;
+
 export default () => {
   return (
     <List>
       <ListItem>
-        <img src={aboutMeIcon} width={24} height={24}/>
-        <Heading>ABOUT ME</Heading>
+        <StyledLink href="http://reactjunkie.com">
+          <img src={aboutMeIcon} width={24} height={24}/>
+          <Heading>ABOUT ME</Heading>
+        </StyledLink>
       </ListItem>
       <ListItem>
         <img src={customersIcon} width={24} height={24}/>

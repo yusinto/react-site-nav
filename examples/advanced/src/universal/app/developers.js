@@ -77,7 +77,7 @@ export default () => {
       </DocoLogo>
       <HeadingText>
         <DocumentationHeading>DOCUMENTATION</DocumentationHeading>
-        <span>Start integrating Stripe's products and tools.</span>
+        <span>Start integrating products and tools.</span>
       </HeadingText>
       <ListGroupGrid>
         <GetStartedGridItem>
