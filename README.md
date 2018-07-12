@@ -2,11 +2,12 @@
 
 [![npm version](https://img.shields.io/npm/v/react-site-nav.svg?style=flat-square)](https://www.npmjs.com/package/react-site-nav) [![npm downloads](https://img.shields.io/npm/dm/react-site-nav.svg?style=flat-square)](https://www.npmjs.com/package/react-site-nav) [![npm](https://img.shields.io/npm/dt/react-site-nav.svg?style=flat-square)](https://www.npmjs.com/package/react-site-nav) [![npm](https://img.shields.io/npm/l/react-site-nav.svg?style=flat-square)](https://www.npmjs.com/package/react-site-nav)
 
-> **A beautifully animated nav bar to be proud of. Powered by styled components inspired by stripe.com** :tada:
+> **A beautifully animated site navigation bar to be proud of. Powered by styled components inspired by stripe.com** :tada:
 
 ![react-site-nav-clip](/animated.gif)
 
-Your search for the perfect navigation bar ends here. Finally a world class navigation bar you can use straight out of the box. Why use this package?
+Your search for the perfect site navigation bar ends here. Finally a world class navigation bar 
+you can use straight out of the box. Why use this package?
 * Beautiful animations
 * Completely customisable
 * Powered by css grid, css animations and styled components
