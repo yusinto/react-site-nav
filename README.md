@@ -6,6 +6,13 @@
 
 ![react-site-nav-clip](/animated.gif)
 
+Your search for the perfect navigation bar ends here. Finally a world class navigation bar you can use straight out of the box. Why use this package?
+* Beautiful animations
+* Completely customisable
+* Powered by css grid, css animations and styled components
+
+No more compromises. Welcome to react-site-nav.
+
 ## Installation
 
 yarn add react-site-nav
