@@ -3,7 +3,7 @@ import React from 'react';
 import {renderToString} from 'react-dom/server';
 import {ServerStyleSheet, StyleSheetManager} from 'styled-components';
 import {StaticRouter} from 'react-router-dom';
-import App from '../universal/app';
+import App from '../universal/app/app';
 
 const PORT = 3000;
 const app = Express();
