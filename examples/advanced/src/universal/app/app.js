@@ -8,6 +8,7 @@ import logo from '../../../assets/logo-transparent.png';
 import ProductsContentGroup from './products';
 import Developers from './developers';
 import Company from './company';
+import Pricing from './pricing';
 
 injectGlobal`
   // auto-generated from https://www.svgbackgrounds.com/#abstract-envelope
@@ -65,11 +66,7 @@ export default class App extends Component {
               <Company/>
             </ContentGroup>
             <ContentGroup title="Pricing" width="300" height="250">
-              <ul>
-                <li>Individual</li>
-                <li>Enterprise</li>
-                <li>Free trial</li>
-              </ul>
+              <Pricing/>
             </ContentGroup>
           </SiteNav>
         </header>
