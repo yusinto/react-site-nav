@@ -14,6 +14,9 @@ const ListItem = styled.li`
   flex-direction: row;
   margin-top: 20px;
   align-items: center;
+  a:hover {
+    opacity: 0.7;
+  }
 `;
 const Heading = styled.div`
   margin: 0;
@@ -35,11 +38,15 @@ export default () => {
   return (
     <List>
       <ListItem>
-        <img src={smiley} width={24} height={24}/>
-        <HeadingText>
-          <Heading>STAR IT!</Heading>
-          <Text>github.com/yusinto/react-site-nav</Text>
-        </HeadingText>
+        <a href="https://github.com/yusinto/react-site-nav">
+          <img src={smiley} width={24} height={24}/>
+        </a>
+        <a href="https://github.com/yusinto/react-site-nav">
+          <HeadingText>
+            <Heading>STAR IT!</Heading>
+            <Text>github.com/yusinto/react-site-nav</Text>
+          </HeadingText>
+        </a>
       </ListItem>
     </List>
   );

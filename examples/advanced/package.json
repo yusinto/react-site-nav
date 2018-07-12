@@ -7,7 +7,8 @@
     "start": "node src/server/index.js",
     "lint": "eslint ./src",
     "serve": "webpack-serve webpack.config.server",
-    "build": "rimraf now/build/* && webpack --config webpack.prod.config.js"
+    "build": "rimraf now/build/* && webpack --config webpack.prod.config.js",
+    "deploy": "cd ./now && now"
   },
   "repository": {
     "type": "git",
