@@ -65,7 +65,7 @@ export default class App extends Component {
             <ContentGroup title="Company" width="260" height="220">
               <Company/>
             </ContentGroup>
-            <ContentGroup title="Pricing" width="300" height="250">
+            <ContentGroup title="Pricing" width="300" height="300">
               <Pricing/>
             </ContentGroup>
           </SiteNav>
