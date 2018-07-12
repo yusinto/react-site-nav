@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import {Link} from 'react-router-dom';
+import aboutMeIcon from '../../../assets/about-me.png';
+import customersIcon from '../../../assets/customers.png';
+import jobsIcon from '../../../assets/jobs.png';
+import environmentIcon from '../../../assets/environment.png';
 
 const List = styled.ul`
   display: flex;
@@ -27,23 +30,19 @@ export default () => {
   return (
     <List>
       <ListItem>
-        <img src="https://buddypress.org/media/disc.png"
-             width={24} height={24}/>
+        <img src={aboutMeIcon} width={24} height={24}/>
         <Heading>ABOUT ME</Heading>
       </ListItem>
       <ListItem>
-        <img src="https://boonyah.com/wp-content/themes/BoonYah/images/acquisition-icons.png"
-             width={24} height={24}/>
+        <img src={customersIcon} width={24} height={24}/>
         <Heading>CUSTOMERS</Heading>
       </ListItem>
       <ListItem>
-        <img src="https://cdn2.iconfinder.com/data/icons/computer-roundline/512/share-512.png"
-             width={24} height={24}/>
+        <img src={jobsIcon} width={24} height={24}/>
         <Heading>JOBS</Heading>
       </ListItem>
       <ListItem>
-        <img src="http://www.nkwedrill.com/wp-content/uploads/2015/12/environment.png"
-             width={24} height={24}/>
+        <img src={environmentIcon} width={24} height={24}/>
         <Heading>ENVIRONMENT</Heading>
       </ListItem>
     </List>

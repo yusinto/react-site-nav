@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {Link} from 'react-router-dom';
+import smiley from '../../../assets/smiley.png';
 
 const List = styled.ul`
   display: flex;
@@ -35,8 +35,7 @@ export default () => {
   return (
     <List>
       <ListItem>
-        <img src="https://cdn0.iconfinder.com/data/icons/smile-emoticons/78/smyle_emoticons-02-512.png"
-             width={24} height={24}/>
+        <img src={smiley} width={24} height={24}/>
         <HeadingText>
           <Heading>STAR IT!</Heading>
           <Text>github.com/yusinto/react-site-nav</Text>

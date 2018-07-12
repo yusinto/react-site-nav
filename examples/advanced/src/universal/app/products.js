@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
+import paymentIcon from '../../../assets/payment.png';
+import billingIcon from '../../../assets/billing.png';
+import connectIcon from '../../../assets/connect.png';
 
 const ListContainer = styled.div`
   display: flex;
@@ -44,8 +47,7 @@ export default () => {
         <li>
           <Link to="/contact">
             <ListItemContent>
-              <img src="https://www.4cassociates.com/wp-content/uploads/2015/02/money.png"
-                   width={48} height={48}/>
+              <img src={paymentIcon} width={48} height={48}/>
               <LisItemHeadingText>
                 <ListItemHeading>PAYMENTS</ListItemHeading>
                 <div>A complete payments platform engineered.</div>
@@ -55,8 +57,7 @@ export default () => {
         </li>
         <li>
           <ListItemContent>
-            <img src="https://main.yhlsoft.com/main/images/Billing-Icon-darkblue-min.png"
-                 width={48} height={48}/>
+            <img src={billingIcon} width={48} height={48}/>
             <LisItemHeadingText>
               <ListItemHeading>BILLING</ListItemHeading>
               <div>Build and scale your recurring business model.</div>
@@ -65,8 +66,7 @@ export default () => {
         </li>
         <li>
           <ListItemContent>
-            <img src="https://cdn.iconscout.com/public/images/icon/premium/png-512/share-communication-connect-connection-network-3a13801d66131b8b-512x512.png"
-                 width={48} height={48}/>
+            <img src={connectIcon} width={48} height={48}/>
             <LisItemHeadingText>
               <ListItemHeading>CONNECT</ListItemHeading>
               <div>Everything platforms need to get sellers paid.</div>

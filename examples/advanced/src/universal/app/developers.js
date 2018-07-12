@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {Link} from 'react-router-dom';
+import documentIcon from '../../../assets/documentation.png';
 
 const RootGrid = styled.div`
   display: grid;
@@ -73,8 +73,7 @@ export default () => {
   return (
     <RootGrid>
       <DocoLogo>
-        <img src="https://www.dscsag.com/sites/default/files/loesung/ThemenLogos_Dokumentenmanagement%20invertiert_1.png"
-             width={24} height={24}/>
+        <img src={documentIcon} width={24} height={24}/>
       </DocoLogo>
       <HeadingText>
         <DocumentationHeading>DOCUMENTATION</DocumentationHeading>
