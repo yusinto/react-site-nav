@@ -59,6 +59,9 @@ export default () =>
 
 ```
 
+Check the two [examples](https://github.com/yusinto/react-site-nav/tree/master/examples) for a fully working spa with
+react router, server side rendering and hot reload.
+
 ## Api
 ### SiteNav
 The main react component that represents the site nav. The root container is a css grid so
