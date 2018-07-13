@@ -62,7 +62,8 @@ export default () =>
 ## Api
 ### SiteNav
 The main react component that represents the site nav. The root container is a css grid so
-most of the props below maps directly to this grid and should be self-explanatory.
+most of the props below maps directly to this grid and should be self-explanatory. Place
+ContentGroup components as children of SiteNav to render the "flyouts".
 
 ```js
   <SiteNav
@@ -78,6 +79,10 @@ most of the props below maps directly to this grid and should be self-explanator
     breakpoint="768" /* Show site nav at this breakpoint */
     debug={false} /* Keep ContentGroup open to make debugging easier */
   >
+    { /* These will render as flyouts */}
+    <ContentGroup>...</ContentGroup>
+    <ContentGroup>...</ContentGroup>
+  </SiteNav>
 ```
 
 ### ContentGroup
