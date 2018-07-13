@@ -60,4 +60,34 @@ export default () =>
 ```
 
 ## Api
-Coming soon!
+### SiteNav
+The main react component that represents the site nav. The root container is a css grid so
+most of the props below maps directly to this grid and should be self-explanatory.
+
+```js
+  <SiteNav
+    align="center" /* center, left, right. This directly maps to justify-content of the root grid. */
+    columnWidth="150"
+    rowHeight="45"
+    background="#323232"
+    color="#fff"
+    fontSize="18"
+    fontFamily="Helvetica, sans-serif"
+    contentBackground="#fff" /* Applies to all content groups */
+    contentColor="#323232" /* Applies to all content groups */
+    breakpoint="768" /* Show site nav at this breakpoint */
+    debug={false} /* Keep ContentGroup open to make debugging easier */
+  >
+```
+
+### ContentGroup
+Each SiteNav contains ContentGroup children components. Each ContentGroup will be rendered
+as a "flyout" on hover of the root items. It accepts the following props which are self-explanatory:
+
+```js
+  <ContentGroup title="Products" width="420" height="270">
+  {
+    /* You can render anything here! */
+  }
+  </ContentGroup>
+```
