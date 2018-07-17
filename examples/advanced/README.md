@@ -1,5 +1,5 @@
-# react-site-nav advacned example
+# react-site-nav advanced example
 
-A spa demonstrating advanced usage of react-site-nav.
+Live demo [here](https://now-evztwufdfm.now.sh/).
 
 yarn && yarn start
