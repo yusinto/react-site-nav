@@ -29,7 +29,8 @@ li > a {
 }
 
 .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+    /* this causes an issue in firefox which breaks the flyout animation */
+    /*animation: App-logo-spin infinite 20s linear;*/
     height: 80px;
 }
 
