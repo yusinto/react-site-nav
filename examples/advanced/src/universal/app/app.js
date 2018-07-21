@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {Switch, Link, Route, Redirect} from 'react-router-dom';
+import styled, {injectGlobal} from 'styled-components';
 import Home from '../home';
 import Contact from '../contact';
-import SiteNav, {ContentGroup} from 'react-site-nav';
-import styled, {injectGlobal} from 'styled-components';
+import SiteNav, {ContentGroup} from './siteNav';
 import logo from '../../../assets/logo-transparent.png';
 import ProductsContentGroup from './products';
 import Developers from './developers';
@@ -65,7 +65,7 @@ export default class App extends Component {
             <ContentGroup title="Company" width="260" height="220">
               <Company/>
             </ContentGroup>
-            <ContentGroup title="Pricing" width="300" height="300">
+            <ContentGroup title="Pricing" width="420" height="300">
               <Pricing/>
             </ContentGroup>
           </SiteNav>
