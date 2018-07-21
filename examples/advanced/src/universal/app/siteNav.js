@@ -64,6 +64,15 @@ const ContentRow = styled.div`
   position: relative;
   height: 0;
 `;
+const MoveArrow = (fromData, toData, offset) => keyframes`
+  from {
+    margin-left: ${(fromData.width / 2) - arrowHeight}px;
+  }
+  
+  to {
+    margin-left: ${(toData.width / 2) - offset - arrowHeight}px;
+  }
+`;
 const ArrowUp = styled.div`
   margin-left: ${({toData}) => toData ? (toData.width / 2) - arrowHeight : 0}px;
   width: 0; 
@@ -77,15 +86,6 @@ const ArrowUp = styled.div`
 }}
   
   ${moveArrowSeconds}s forwards ease;
-`;
-const MoveArrow = (fromData, toData, offset) => keyframes`
-  from {
-    margin-left: ${(fromData.width / 2) - arrowHeight}px;
-  }
-  
-  to {
-    margin-left: ${(toData.width / 2) - offset - arrowHeight}px;
-  }
 `;
 const Move = (fromData, toData) => keyframes`
   from {
