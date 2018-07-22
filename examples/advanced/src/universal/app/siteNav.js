@@ -14,13 +14,13 @@ const defaultContentColor = '#323232';
 const defaultContentWidth = 320;
 const defaultContentHeight = 200;
 
-const arrowHeight = 5;
+const arrowHeight = 15;
 const perspective = 850;
 
 const fadeOutSeconds = 0.34;
 const fadeInSeconds = 0.25;
-const moveSeconds = 0.2;
-const moveArrowSeconds = 0.35;
+const moveSeconds = 0.25;
+const moveArrowSeconds = 0.28;
 const fadeOutContentSeconds = 0.29;
 const fadeInContentSeconds = 0.1;
 
@@ -64,29 +64,6 @@ const ContentRow = styled.div`
   position: relative;
   height: 0;
 `;
-const MoveArrow = (fromData, toData, offset) => keyframes`
-  from {
-    margin-left: ${(fromData.width / 2) - arrowHeight}px;
-  }
-  
-  to {
-    margin-left: ${(toData.width / 2) - offset - arrowHeight}px;
-  }
-`;
-const ArrowUp = styled.div`
-  margin-left: ${({toData}) => toData ? (toData.width / 2) - arrowHeight : 0}px;
-  width: 0; 
-  height: 0; 
-  border-left: ${arrowHeight}px solid transparent;
-  border-right: ${arrowHeight}px solid transparent;
-  border-bottom: ${arrowHeight}px solid ${({background}) => background};
-  animation: ${({fromData, toData, offset}) => {
-  if (fromData) return MoveArrow(fromData, toData, offset);
-  return '';
-}}
-  
-  ${moveArrowSeconds}s forwards ease;
-`;
 const Move = (fromData, toData) => keyframes`
   from {
     left: ${fromData.left}px;
@@ -129,12 +106,14 @@ const FadeOut = keyframes`
 `;
 const MovingDiv = styled.div`
   ${setFromProps('color')};
+  ${setFromProps('background')};
   position: absolute;
-  top: -10px;
   left: ${({fromData}) => fromData ? fromData.left : 0}px;
   width: ${({fromData}) => fromData ? fromData.width : 0}px;
   height: ${({fromData}) => fromData ? fromData.height : 0}px;
   display: ${props => props.display};
+  border-radius: 4px;
+  box-shadow: 0 8px 28px 1px rgba(138,126,138,0.67); // Ripped from: https://www.cssmatic.com/box-shadow
   animation: ${({fadeOut, display, fromData, toData}) => {
   if (fadeOut) return FadeOut;
   if (display === 'block') {
@@ -156,13 +135,6 @@ const MovingDiv = styled.div`
   
   forwards ease;
 `;
-const MovingDivContent = styled.div`
-  ${setFromProps('background')};
-  border-radius: 4px;
-  width: 100%;
-  height: 100%;
-  box-shadow: 0px 8px 28px 1px rgba(138,126,138,0.67); // Ripped from: https://www.cssmatic.com/box-shadow
-`;
 const FadeInContent = keyframes`
   from {
     opacity: 0;
@@ -183,7 +155,6 @@ const FadeOutContent = keyframes`
 `;
 const ContentGroupContainer = styled.div`
   position: absolute;
-  top: ${arrowHeight}px;
   margin-top: 0;
   margin-bottom: 0;
   width: 100%;
@@ -197,6 +168,67 @@ const ContentGroupContainer = styled.div`
 }} 
   ${({show}) => show ? `${fadeInContentSeconds}` : `${fadeOutContentSeconds}`}s
   forwards;
+`;
+const FadeInArrow = keyframes`
+  from {
+    opacity: 0;
+  }
+  
+  to {
+    opacity: 1;
+  }
+`;
+const FadeOutArrow = keyframes`
+  from {
+    opacity: 1;
+  }
+  
+  to {
+    opacity: 0;
+  }
+`;
+const MoveArrow = (fromData, toData, offset) => keyframes`
+  from {
+    left: ${fromData.left + (fromData.width / 2) - arrowHeight}px;
+  }
+  
+  to {
+    left: ${toData.left + (toData.width / 2) - offset - arrowHeight}px;
+  }
+`;
+const Arrow = styled.div`
+  top: -${arrowHeight / 2}px;
+  position: absolute;
+  transform: rotate(45deg);  
+  border-radius: 4px 0 0 0;
+  z-index: 2;
+  ${setFromProps('background')};
+  left: ${({toData, offset}) => toData ? toData.left + (toData.width / 2) - offset - arrowHeight : 0}px;
+  width: ${arrowHeight}px;
+  height: ${arrowHeight}px;
+  display: ${props => props.display};
+  // TODO: fix box shadow around arrow
+  //box-shadow: 0 8px 28px 1px rgba(138,126,138,0.67); // Ripped from: https://www.cssmatic.com/box-shadow
+  animation: ${({fadeOut, display, fromData, toData, offset}) => {
+  if (fadeOut) return FadeOutArrow;
+  if (display === 'block') {
+    if (fromData.left === toData.left) return FadeInArrow;
+    if (fromData) return MoveArrow(fromData, toData, offset);
+  }
+  return ''; // display: none; don't animate
+}}
+  
+  // fade out and in slower than moving sideways
+  ${({fadeOut, display, fromData, toData}) => {
+  if (fadeOut) return `${fadeOutSeconds}s`;
+  if (display === 'block') {
+    if (fromData.left === toData.left) return `${fadeInSeconds}s`; // fade in
+    if (fromData) return `${moveArrowSeconds}s`; // move
+  }
+  return '0s'; // display: none; don't animate
+}}
+  
+  forwards ease;
 `;
 
 export const ContentGroup = ({title, width, height}) => {
@@ -272,8 +304,8 @@ export default class SiteNav extends Component {
       const toData = {...toDataOriginal};
       let offset = 0;
 
-      if (target) {
-        // off screen detection
+      if (target) { // off screen detection
+        // target is rootGridItem
         const {left, width} = target.getBoundingClientRect();
         const offScreenDistance = (toData.width / 2) - (left + (width / 2));
         const isOffScreen = offScreenDistance > 0;
@@ -311,9 +343,9 @@ export default class SiteNav extends Component {
       columnWidth, rowHeight, background, contentBackground, contentColor,
       children, align, fontSize, fontFamily, color, breakpoint
     } = this.props;
-    const {fromData, toData} = this.state;
+    const {fromData, toData, display, fadeOut, offset} = this.state;
     const columns = this.memoizeColumns(children);
-    const gridItems = this.memoizeGridItems(children);
+    const rootGridItems = this.memoizeGridItems(children);
     const content = this.memoizeContent(children, fromData, toData);
     const justifyContent = this.memoizeAlign(align);
 
@@ -333,25 +365,27 @@ export default class SiteNav extends Component {
           onMouseLeave={this.onMouseLeave}
           columns={columns}
         >
-          {gridItems}
+          {rootGridItems}
           <ContentRow columns={columns}>
+            <Arrow
+              display={display}
+              fadeOut={fadeOut}
+              fromData={fromData}
+              toData={toData}
+              onClick={this.onClickMovingDiv}
+              background={contentBackground}
+              offset={offset}
+            />
             <MovingDiv
-              display={this.state.display}
-              fadeOut={this.state.fadeOut}
-              fromData={this.state.fromData}
-              toData={this.state.toData}
+              display={display}
+              fadeOut={fadeOut}
+              fromData={fromData}
+              toData={toData}
               color={contentColor}
+              onClick={this.onClickMovingDiv}
+              background={contentBackground}
             >
-              <ArrowUp
-                fromData={this.state.fromData}
-                toData={this.state.toData}
-                offset={this.state.offset}
-                background={contentBackground}
-              />
-              <MovingDivContent onClick={this.onClickMovingDiv}
-                                background={contentBackground}>
-                {content}
-              </MovingDivContent>
+              {content}
             </MovingDiv>
           </ContentRow>
         </GridContainer>
