@@ -49,7 +49,7 @@ const GridContainer = styled.div`
   }
 `;
 const GridItem = styled.div`
-  grid-column: ${props => props.index + 1} / span 1;
+  grid-column: ${({index}) => index + 1} / span 1;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -111,7 +111,7 @@ const MovingDiv = styled.div`
   left: ${({fromData}) => fromData ? fromData.left : 0}px;
   width: ${({fromData}) => fromData ? fromData.width : 0}px;
   height: ${({fromData}) => fromData ? fromData.height : 0}px;
-  display: ${props => props.display};
+  display: ${({display}) => display};
   border-radius: 4px;
   box-shadow: 0 8px 28px 1px rgba(138,126,138,0.67); // Ripped from: https://www.cssmatic.com/box-shadow
   animation: ${({fadeOut, display, fromData, toData}) => {
@@ -201,7 +201,7 @@ const Arrow = styled.div`
   position: absolute;
   transform: rotate(45deg);  
   border-radius: 4px 0 0 0;
-  z-index: 2;
+  z-index: 1;
   ${setFromProps('background')};
   left: ${({toData, offset}) => toData ? toData.left + (toData.width / 2) - offset - arrowHeight : 0}px;
   width: ${arrowHeight}px;
