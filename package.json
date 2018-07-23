@@ -36,6 +36,7 @@
     "@babel/preset-react": "^7.0.0-beta.52",
     "babel-plugin-styled-components": "^1.5.1",
     "babel-preset-minify": "^0.4.3",
+    "eslint-plugin-babel": "^5.1.0",
     "rimraf": "^2.6.2"
   },
   "dependencies": {
