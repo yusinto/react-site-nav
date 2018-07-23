@@ -135,40 +135,6 @@ const MovingDiv = styled.div`
   
   forwards ease;
 `;
-const FadeInContent = keyframes`
-  from {
-    opacity: 0;
-  }
-  
-  to {
-    opacity: 1;
-  }
-`;
-const FadeOutContent = keyframes`
-  from {
-    opacity: 1;
-  }
-  
-  to {
-    opacity: 0;
-  }
-`;
-const ContentGroupContainer = styled.div`
-  position: absolute;
-  margin-top: 0;
-  margin-bottom: 0;
-  width: 100%;
-  height: 100%;
-  opacity: ${({show}) => show ? 1 : 0};
-  z-index: ${({show}) => show ? 1 : 0};
-  animation: ${({show, fadeOut}) => {
-  if (show) return FadeInContent;
-  if (fadeOut) return FadeOutContent;
-  return ''; // cold start and everything else just show without animation 
-}} 
-  ${({show}) => show ? `${fadeInContentSeconds}` : `${fadeOutContentSeconds}`}s
-  forwards;
-`;
 const FadeInArrow = keyframes`
   from {
     opacity: 0;
@@ -206,7 +172,7 @@ const Arrow = styled.div`
   left: ${({toData, offset}) => toData ? toData.left + (toData.width / 2) - offset - arrowHeight : 0}px;
   width: ${arrowHeight}px;
   height: ${arrowHeight}px;
-  display: ${props => props.display};
+  display: ${({display}) => display};
   // TODO: fix box shadow around arrow
   //box-shadow: 0 8px 28px 1px rgba(138,126,138,0.67); // Ripped from: https://www.cssmatic.com/box-shadow
   animation: ${({fadeOut, display, fromData, toData, offset}) => {
@@ -220,9 +186,9 @@ const Arrow = styled.div`
   
   // fade out and in slower than moving sideways
   ${({fadeOut, display, fromData, toData}) => {
-  if (fadeOut) return `${fadeOutSeconds}s`;
+  if (fadeOut) return `${fadeOutSeconds / 2}s`;
   if (display === 'block') {
-    if (fromData.left === toData.left) return `${fadeInSeconds}s`; // fade in
+    if (fromData.left === toData.left) return `${fadeInSeconds * 2}s`; // fade in
     if (fromData) return `${moveArrowSeconds}s`; // move
   }
   return '0s'; // display: none; don't animate
@@ -230,7 +196,40 @@ const Arrow = styled.div`
   
   forwards ease;
 `;
-
+const FadeInContent = keyframes`
+  from {
+    opacity: 0;
+  }
+  
+  to {
+    opacity: 1;
+  }
+`;
+const FadeOutContent = keyframes`
+  from {
+    opacity: 1;
+  }
+  
+  to {
+    opacity: 0;
+  }
+`;
+const ContentGroupContainer = styled.div`
+  position: absolute;
+  margin-top: 0;
+  margin-bottom: 0;
+  width: 100%;
+  height: 100%;
+  opacity: ${({show}) => show ? 1 : 0};
+  z-index: ${({show}) => show ? 1 : 0};
+  animation: ${({show, fadeOut}) => {
+  if (show) return FadeInContent;
+  if (fadeOut) return FadeOutContent;
+  return ''; // cold start and everything else just show without animation 
+}} 
+  ${({show}) => show ? `${fadeInContentSeconds}` : `${fadeOutContentSeconds}`}s
+  forwards;
+`;
 export const ContentGroup = ({title, width, height}) => {
   return <div>{title}: {width}x{height}</div>;
 };
