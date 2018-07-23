@@ -48,13 +48,14 @@ export default class App extends Component {
         <header>
           <Header>
             <Link to="/">
-              <img style={{height: '80px', marginLeft: '20px', marginTop: '0px'}} src={logo}/>
+              <img alt="logo" style={{height: '80px', marginLeft: '20px', marginTop: '0px'}} src={logo}/>
             </Link>
           </Header>
-          <SiteNav background="transparent"
-                   fontSize="18"
-                   fontFamily="Helvetica, sans-serif"
-                   debug={false}
+          <SiteNav
+            background="transparent"
+            fontSize="18"
+            fontFamily="Helvetica, sans-serif"
+            debug
           >
             <ContentGroup title="Products" width="420" height="270">
               <ProductsContentGroup/>
