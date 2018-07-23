@@ -14,7 +14,7 @@ const defaultContentColor = '#323232';
 const defaultContentWidth = 320;
 const defaultContentHeight = 200;
 
-const arrowHeight = 15;
+const arrowHeight = 8;
 const perspective = 850;
 
 const fadeOutSeconds = 0.34;
@@ -155,26 +155,25 @@ const FadeOutArrow = keyframes`
 `;
 const MoveArrow = (fromData, toData, offset) => keyframes`
   from {
-    left: ${fromData.left + (fromData.width / 2) - arrowHeight}px;
+    margin-left: ${fromData.left + (fromData.width / 2) - arrowHeight}px;
   }
   
   to {
-    left: ${toData.left + (toData.width / 2) - offset - arrowHeight}px;
+    margin-left: ${toData.left + (toData.width / 2) - offset - arrowHeight}px;
   }
 `;
+
 const Arrow = styled.div`
-  top: -${arrowHeight / 2}px;
-  position: absolute;
-  transform: rotate(45deg);  
-  border-radius: 4px 0 0 0;
+  top: -${arrowHeight}px;
   z-index: 1;
-  ${setFromProps('background')};
-  left: ${({toData, offset}) => toData ? toData.left + (toData.width / 2) - offset - arrowHeight : 0}px;
-  width: ${arrowHeight}px;
-  height: ${arrowHeight}px;
+  position: absolute;
+  margin-left: ${({toData, offset}) => toData ? toData.left + (toData.width / 2) - offset - arrowHeight : 0}px;
   display: ${({display}) => display};
-  // TODO: fix box shadow around arrow
-  //box-shadow: 0 8px 28px 1px rgba(138,126,138,0.67); // Ripped from: https://www.cssmatic.com/box-shadow
+  width: 0; 
+  height: 0;
+  border-left: ${arrowHeight}px solid transparent;
+  border-right: ${arrowHeight}px solid transparent;
+  border-bottom: ${arrowHeight}px solid ${({background}) => background};
   animation: ${({fadeOut, display, fromData, toData, offset}) => {
   if (fadeOut) return FadeOutArrow;
   if (display === 'block') {
@@ -186,9 +185,9 @@ const Arrow = styled.div`
   
   // fade out and in slower than moving sideways
   ${({fadeOut, display, fromData, toData}) => {
-  if (fadeOut) return `${fadeOutSeconds / 2}s`;
+  if (fadeOut) return `${fadeOutSeconds}s`;
   if (display === 'block') {
-    if (fromData.left === toData.left) return `${fadeInSeconds * 2}s`; // fade in
+    if (fromData.left === toData.left) return `${fadeInSeconds}s`; // fade in
     if (fromData) return `${moveArrowSeconds}s`; // move
   }
   return '0s'; // display: none; don't animate
