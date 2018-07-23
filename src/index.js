@@ -49,7 +49,7 @@ const GridContainer = styled.div`
   }
 `;
 const GridItem = styled.div`
-  grid-column: ${props => props.index + 1} / span 1;
+  grid-column: ${({index}) => index + 1} / span 1;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -111,7 +111,7 @@ const MovingDiv = styled.div`
   left: ${({fromData}) => fromData ? fromData.left : 0}px;
   width: ${({fromData}) => fromData ? fromData.width : 0}px;
   height: ${({fromData}) => fromData ? fromData.height : 0}px;
-  display: ${props => props.display};
+  display: ${({display}) => display};
   border-radius: 4px;
   box-shadow: 0 8px 28px 1px rgba(138,126,138,0.67); // Ripped from: https://www.cssmatic.com/box-shadow
   animation: ${({fadeOut, display, fromData, toData}) => {
@@ -129,6 +129,67 @@ const MovingDiv = styled.div`
   if (display === 'block') {
     if (fromData.left === toData.left) return `${fadeInSeconds}s`; // fade in
     if (fromData) return `${moveSeconds}s`; // move
+  }
+  return '0s'; // display: none; don't animate
+}}
+  
+  forwards ease;
+`;
+const FadeInArrow = keyframes`
+  from {
+    opacity: 0;
+  }
+  
+  to {
+    opacity: 1;
+  }
+`;
+const FadeOutArrow = keyframes`
+  from {
+    opacity: 1;
+  }
+  
+  to {
+    opacity: 0;
+  }
+`;
+const MoveArrow = (fromData, toData, offset) => keyframes`
+  from {
+    left: ${fromData.left + (fromData.width / 2) - arrowHeight}px;
+  }
+  
+  to {
+    left: ${toData.left + (toData.width / 2) - offset - arrowHeight}px;
+  }
+`;
+const Arrow = styled.div`
+  top: -${arrowHeight / 2}px;
+  position: absolute;
+  transform: rotate(45deg);  
+  border-radius: 4px 0 0 0;
+  z-index: 1;
+  ${setFromProps('background')};
+  left: ${({toData, offset}) => toData ? toData.left + (toData.width / 2) - offset - arrowHeight : 0}px;
+  width: ${arrowHeight}px;
+  height: ${arrowHeight}px;
+  display: ${({display}) => display};
+  // TODO: fix box shadow around arrow
+  //box-shadow: 0 8px 28px 1px rgba(138,126,138,0.67); // Ripped from: https://www.cssmatic.com/box-shadow
+  animation: ${({fadeOut, display, fromData, toData, offset}) => {
+  if (fadeOut) return FadeOutArrow;
+  if (display === 'block') {
+    if (fromData.left === toData.left) return FadeInArrow;
+    if (fromData) return MoveArrow(fromData, toData, offset);
+  }
+  return ''; // display: none; don't animate
+}}
+  
+  // fade out and in slower than moving sideways
+  ${({fadeOut, display, fromData, toData}) => {
+  if (fadeOut) return `${fadeOutSeconds / 2}s`;
+  if (display === 'block') {
+    if (fromData.left === toData.left) return `${fadeInSeconds * 2}s`; // fade in
+    if (fromData) return `${moveArrowSeconds}s`; // move
   }
   return '0s'; // display: none; don't animate
 }}
@@ -169,68 +230,6 @@ const ContentGroupContainer = styled.div`
   ${({show}) => show ? `${fadeInContentSeconds}` : `${fadeOutContentSeconds}`}s
   forwards;
 `;
-const FadeInArrow = keyframes`
-  from {
-    opacity: 0;
-  }
-  
-  to {
-    opacity: 1;
-  }
-`;
-const FadeOutArrow = keyframes`
-  from {
-    opacity: 1;
-  }
-  
-  to {
-    opacity: 0;
-  }
-`;
-const MoveArrow = (fromData, toData, offset) => keyframes`
-  from {
-    left: ${fromData.left + (fromData.width / 2) - arrowHeight}px;
-  }
-  
-  to {
-    left: ${toData.left + (toData.width / 2) - offset - arrowHeight}px;
-  }
-`;
-const Arrow = styled.div`
-  top: -${arrowHeight / 2}px;
-  position: absolute;
-  transform: rotate(45deg);  
-  border-radius: 4px 0 0 0;
-  z-index: 2;
-  ${setFromProps('background')};
-  left: ${({toData, offset}) => toData ? toData.left + (toData.width / 2) - offset - arrowHeight : 0}px;
-  width: ${arrowHeight}px;
-  height: ${arrowHeight}px;
-  display: ${props => props.display};
-  // TODO: fix box shadow around arrow
-  //box-shadow: 0 8px 28px 1px rgba(138,126,138,0.67); // Ripped from: https://www.cssmatic.com/box-shadow
-  animation: ${({fadeOut, display, fromData, toData, offset}) => {
-  if (fadeOut) return FadeOutArrow;
-  if (display === 'block') {
-    if (fromData.left === toData.left) return FadeInArrow;
-    if (fromData) return MoveArrow(fromData, toData, offset);
-  }
-  return ''; // display: none; don't animate
-}}
-  
-  // fade out and in slower than moving sideways
-  ${({fadeOut, display, fromData, toData}) => {
-  if (fadeOut) return `${fadeOutSeconds}s`;
-  if (display === 'block') {
-    if (fromData.left === toData.left) return `${fadeInSeconds}s`; // fade in
-    if (fromData) return `${moveArrowSeconds}s`; // move
-  }
-  return '0s'; // display: none; don't animate
-}}
-  
-  forwards ease;
-`;
-
 export const ContentGroup = ({title, width, height}) => {
   return <div>{title}: {width}x{height}</div>;
 };
