@@ -23,6 +23,7 @@ const moveSeconds = 0.25;
 const moveArrowSeconds = 0.28;
 const fadeOutContentSeconds = 0.29;
 const fadeInContentSeconds = 0.1;
+const OffScreenPadding = 10;
 
 const setFromProps = camelCaseKey => css`
   ${props => props[camelCaseKey] ? `${kebabCase(camelCaseKey)}: ${props[camelCaseKey]}` : null}`;
@@ -153,32 +154,31 @@ const FadeOutArrow = keyframes`
     opacity: 0;
   }
 `;
-const MoveArrow = (fromData, toData, offset) => keyframes`
+const MoveArrow = (fromData, toData, leftOffset, rightOffset) => keyframes`
   from {
-    margin-left: ${fromData.left + (fromData.width / 2) - arrowHeight}px;
+    margin-left: ${fromData.left + (fromData.width / 2) - leftOffset + rightOffset - arrowHeight}px;
   }
   
   to {
-    margin-left: ${toData.left + (toData.width / 2) - offset - arrowHeight}px;
+    margin-left: ${toData.left + (toData.width / 2) - leftOffset + rightOffset - arrowHeight}px;
   }
 `;
-
 const Arrow = styled.div`
   top: -${arrowHeight}px;
   z-index: 1;
   position: absolute;
-  margin-left: ${({toData, offset}) => toData ? toData.left + (toData.width / 2) - offset - arrowHeight : 0}px;
+  margin-left: ${({toData, leftOffset, rightOffset}) => toData ? toData.left + (toData.width / 2) - leftOffset + rightOffset - arrowHeight : 0}px;
   display: ${({display}) => display};
   width: 0; 
   height: 0;
   border-left: ${arrowHeight}px solid transparent;
   border-right: ${arrowHeight}px solid transparent;
   border-bottom: ${arrowHeight}px solid ${({background}) => background};
-  animation: ${({fadeOut, display, fromData, toData, offset}) => {
+  animation: ${({fadeOut, display, fromData, toData, leftOffset, rightOffset}) => {
   if (fadeOut) return FadeOutArrow;
   if (display === 'block') {
     if (fromData.left === toData.left) return FadeInArrow;
-    if (fromData) return MoveArrow(fromData, toData, offset);
+    if (fromData) return MoveArrow(fromData, toData, leftOffset, rightOffset);
   }
   return ''; // display: none; don't animate
 }}
@@ -234,7 +234,7 @@ export const ContentGroup = ({title, width, height}) => {
 };
 
 export default class SiteNav extends Component {
-  state = {display: 'none', fadeOut: false, fromData: null, toData: null, offset: 0};
+  state = {display: 'none', fadeOut: false, fromData: null, toData: null, leftOffset: 0, rightOffset: 0};
 
   static defaultProps = {
     align: defaultRootAlign,
@@ -300,18 +300,27 @@ export default class SiteNav extends Component {
       const display = 'block';
       const toDataOriginal = this.memoizeMenuData(this.props.columnWidth, this.props.children)[menuDataIndex];
       const toData = {...toDataOriginal};
-      let offset = 0;
+      let leftOffset = 0;
+      let rightOffset = 0;
 
       if (target) { // off screen detection
         // target is rootGridItem
         const {left, width} = target.getBoundingClientRect();
-        const offScreenDistance = (toData.width / 2) - (left + (width / 2));
-        const isOffScreen = offScreenDistance > 0;
+        const siteNavWidth = target.parentNode.clientWidth;
+        leftOffset = (toData.width / 2) - (left + (width / 2));
+        rightOffset = (toData.width / 2) - (siteNavWidth - (left + (width / 2)));
 
-        if (isOffScreen) {
+        if (leftOffset > 0) {
           // if off screen, toData.left needs to be moved to be on-screen!
-          offset = offScreenDistance + 10;
-          toData.left += offset;
+          toData.left += leftOffset + OffScreenPadding;
+        } else {
+          leftOffset = 0;
+        }
+
+        if (rightOffset > 0) {
+          toData.left -= rightOffset - OffScreenPadding;
+        } else {
+          rightOffset = 0;
         }
 
         let fromData;
@@ -328,7 +337,8 @@ export default class SiteNav extends Component {
           fadeOut,
           fromData,
           toData,
-          offset,
+          leftOffset,
+          rightOffset,
         };
       }
     });
@@ -341,7 +351,7 @@ export default class SiteNav extends Component {
       columnWidth, rowHeight, background, contentBackground, contentColor,
       children, align, fontSize, fontFamily, color, breakpoint
     } = this.props;
-    const {fromData, toData, display, fadeOut, offset} = this.state;
+    const {fromData, toData, display, fadeOut, leftOffset, rightOffset} = this.state;
     const columns = this.memoizeColumns(children);
     const rootGridItems = this.memoizeGridItems(children);
     const content = this.memoizeContent(children, fromData, toData);
@@ -372,7 +382,8 @@ export default class SiteNav extends Component {
               toData={toData}
               onClick={this.onClickMovingDiv}
               background={contentBackground}
-              offset={offset}
+              leftOffset={leftOffset}
+              rightOffset={rightOffset}
             />
             <MovingDiv
               display={display}
