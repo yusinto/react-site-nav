@@ -55,7 +55,6 @@ export default class App extends Component {
             background="transparent"
             fontSize="18"
             fontFamily="Helvetica, sans-serif"
-            debug
           >
             <ContentGroup title="Products" width="420" height="270">
               <ProductsContentGroup/>
