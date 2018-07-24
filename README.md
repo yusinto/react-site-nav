@@ -6,7 +6,7 @@
 
 > **A beautiful site navigation bar to be proud of. Powered by styled components inspired by stripe.com** :tada:
 
-<b>Check out the live preview <a href="https://now-evztwufdfm.now.sh" target="_blank">here</a> (powered by <a href="https://zeit.co/now">now</a>).</b>
+<b>Check out the live preview <a href="https://react-site-nav.now.sh" target="_blank">here</a> (powered by <a href="https://zeit.co/now">now</a>).</b>
 
 ![react-site-nav-clip](/animated.gif)
 
