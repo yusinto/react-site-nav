@@ -14,15 +14,16 @@ const defaultContentColor = '#323232';
 const defaultContentWidth = 320;
 const defaultContentHeight = 200;
 
-const arrowHeight = 5;
+const arrowHeight = 8;
 const perspective = 850;
 
 const fadeOutSeconds = 0.34;
 const fadeInSeconds = 0.25;
-const moveSeconds = 0.2;
-const moveArrowSeconds = 0.25;
+const moveSeconds = 0.25;
+const moveArrowSeconds = 0.28;
 const fadeOutContentSeconds = 0.29;
 const fadeInContentSeconds = 0.1;
+const OffScreenPadding = 10;
 
 const setFromProps = camelCaseKey => css`
   ${props => props[camelCaseKey] ? `${kebabCase(camelCaseKey)}: ${props[camelCaseKey]}` : null}`;
@@ -49,7 +50,7 @@ const GridContainer = styled.div`
   }
 `;
 const GridItem = styled.div`
-  grid-column: ${props => props.index + 1} / span 1;
+  grid-column: ${({index}) => index + 1} / span 1;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -63,29 +64,6 @@ const ContentRow = styled.div`
   grid-row: 2 / span 1;
   position: relative;
   height: 0;
-`;
-const ArrowUp = styled.div`
-  margin-left: ${({toData}) => toData ? (toData.width / 2) - arrowHeight : 0}px;
-  width: 0; 
-  height: 0; 
-  border-left: ${arrowHeight}px solid transparent;
-  border-right: ${arrowHeight}px solid transparent;
-  border-bottom: ${arrowHeight}px solid ${({background}) => background};
-  animation: ${({fromData, toData}) => {
-  if (fromData) return MoveArrow(fromData, toData);
-  return '';
-}}
-  
-  ${moveArrowSeconds}s forwards ease;
-`;
-const MoveArrow = (fromData, toData) => keyframes`
-  from {
-    margin-left: ${(fromData.width / 2) - arrowHeight}px;
-  }
-  
-  to {
-    margin-left: ${(toData.width / 2) - arrowHeight}px;
-  }
 `;
 const Move = (fromData, toData) => keyframes`
   from {
@@ -129,12 +107,14 @@ const FadeOut = keyframes`
 `;
 const MovingDiv = styled.div`
   ${setFromProps('color')};
+  ${setFromProps('background')};
   position: absolute;
-  top: -10px;
   left: ${({fromData}) => fromData ? fromData.left : 0}px;
   width: ${({fromData}) => fromData ? fromData.width : 0}px;
   height: ${({fromData}) => fromData ? fromData.height : 0}px;
-  display: ${props => props.display};
+  display: ${({display}) => display};
+  border-radius: 4px;
+  box-shadow: 0 8px 28px 1px rgba(138,126,138,0.67); // Ripped from: https://www.cssmatic.com/box-shadow
   animation: ${({fadeOut, display, fromData, toData}) => {
   if (fadeOut) return FadeOut;
   if (display === 'block') {
@@ -156,12 +136,71 @@ const MovingDiv = styled.div`
   
   forwards ease;
 `;
-const MovingDivContent = styled.div`
-  ${setFromProps('background')};
-  border-radius: 4px;
-  width: 100%;
-  height: 100%;
-  box-shadow: 0px 8px 28px 1px rgba(138,126,138,0.67); // Ripped from: https://www.cssmatic.com/box-shadow
+const FadeInArrow = keyframes`
+  from {
+    opacity: 0;
+  }
+  
+  to {
+    opacity: 1;
+  }
+`;
+const FadeOutArrow = keyframes`
+  from {
+    opacity: 1;
+  }
+  
+  to {
+    opacity: 0;
+  }
+`;
+const calculateArrowMarginLeft = (data, leftOffset, rightOffset) => css`
+  margin-left: ${
+  data ? data.left + (data.width / 2) - leftOffset + rightOffset - arrowHeight
+    - (leftOffset > 0 || rightOffset > 0 ? OffScreenPadding : 0)
+    : 0
+  }px;
+`;
+const MoveArrow = (fromData, toData, leftOffset, rightOffset) => keyframes`
+  from {
+    ${calculateArrowMarginLeft(fromData, leftOffset, rightOffset)}
+  }
+  
+  to {
+    ${calculateArrowMarginLeft(toData, leftOffset, rightOffset)}
+  }
+`;
+const Arrow = styled.div`
+  top: -${arrowHeight}px;
+  z-index: 1;
+  position: absolute;
+  ${({toData, leftOffset, rightOffset}) => calculateArrowMarginLeft(toData, leftOffset, rightOffset)}
+  display: ${({display}) => display};
+  width: 0; 
+  height: 0;
+  border-left: ${arrowHeight}px solid transparent;
+  border-right: ${arrowHeight}px solid transparent;
+  border-bottom: ${arrowHeight}px solid ${({background}) => background};
+  animation: ${({fadeOut, display, fromData, toData, leftOffset, rightOffset}) => {
+  if (fadeOut) return FadeOutArrow;
+  if (display === 'block') {
+    if (fromData.left === toData.left) return FadeInArrow;
+    if (fromData) return MoveArrow(fromData, toData, leftOffset, rightOffset);
+  }
+  return ''; // display: none; don't animate
+}}
+  
+  // fade out and in slower than moving sideways
+  ${({fadeOut, display, fromData, toData}) => {
+  if (fadeOut) return `${fadeOutSeconds}s`;
+  if (display === 'block') {
+    if (fromData.left === toData.left) return `${fadeInSeconds}s`; // fade in
+    if (fromData) return `${moveArrowSeconds}s`; // move
+  }
+  return '0s'; // display: none; don't animate
+}}
+  
+  forwards ease;
 `;
 const FadeInContent = keyframes`
   from {
@@ -183,7 +222,6 @@ const FadeOutContent = keyframes`
 `;
 const ContentGroupContainer = styled.div`
   position: absolute;
-  top: ${arrowHeight}px;
   margin-top: 0;
   margin-bottom: 0;
   width: 100%;
@@ -198,13 +236,12 @@ const ContentGroupContainer = styled.div`
   ${({show}) => show ? `${fadeInContentSeconds}` : `${fadeOutContentSeconds}`}s
   forwards;
 `;
-
 export const ContentGroup = ({title, width, height}) => {
   return <div>{title}: {width}x{height}</div>;
 };
 
 export default class SiteNav extends Component {
-  state = {display: 'none', fadeOut: false, fromData: null, toData: null};
+  state = {display: 'none', fadeOut: false, fromData: null, toData: null, leftOffset: 0, rightOffset: 0};
 
   static defaultProps = {
     align: defaultRootAlign,
@@ -235,7 +272,7 @@ export default class SiteNav extends Component {
   memoizeGridItems = memoize(children => React.Children.map(children, (child, i) =>
     <GridItem key={`menu-title-${i}`}
               index={i}
-              onMouseEnter={() => this.onMouseEnter(i)}>
+              onMouseEnter={(e) => this.onMouseEnter(e.target, i)}>
       {child.props.title}
     </GridItem>
   ));
@@ -264,27 +301,53 @@ export default class SiteNav extends Component {
     if (this.props.debug) return;
     this.setState((prevState) => ({fadeOut: true, fromData: prevState.toData}));
   };
-  onMouseEnter = (menuDataIndex) => {
+  onMouseEnter = (target, menuDataIndex) => {
     this.setState((prevState) => {
       const fadeOut = false;
       const display = 'block';
-      const toData = this.memoizeMenuData(this.props.columnWidth, this.props.children)[menuDataIndex];
+      const toDataOriginal = this.memoizeMenuData(this.props.columnWidth, this.props.children)[menuDataIndex];
+      const toData = {...toDataOriginal};
+      let leftOffset = 0;
+      let rightOffset = 0;
 
-      let fromData;
-      if (prevState.fadeOut || !prevState.toData) {
-        // on cold start, pop up right from the current item
-        fromData = toData;
-      } else {
-        // on warm start, start animation from the previous item
-        fromData = prevState.toData;
+      if (target) { // off screen detection
+        // target is rootGridItem
+        const {left, width} = target.getBoundingClientRect();
+        const siteNavWidth = target.parentNode.clientWidth;
+        leftOffset = (toData.width / 2) - (left + (width / 2));
+        rightOffset = (toData.width / 2) - (siteNavWidth - (left + (width / 2)));
+
+        if (leftOffset > 0) {
+          // if off screen, toData.left needs to be moved to be on-screen!
+          toData.left += leftOffset + OffScreenPadding;
+        } else {
+          leftOffset = 0;
+        }
+
+        if (rightOffset > 0) {
+          toData.left -= rightOffset - OffScreenPadding;
+        } else {
+          rightOffset = 0;
+        }
+
+        let fromData;
+        if (prevState.fadeOut || !prevState.toData) {
+          // on cold start, pop up right from the current item
+          fromData = toData;
+        } else {
+          // on warm start, start animation from the previous item
+          fromData = prevState.toData;
+        }
+
+        return {
+          display,
+          fadeOut,
+          fromData,
+          toData,
+          leftOffset,
+          rightOffset,
+        };
       }
-
-      return {
-        display,
-        fadeOut,
-        fromData,
-        toData,
-      };
     });
   };
   onMouseLeave = () => this.close();
@@ -295,9 +358,9 @@ export default class SiteNav extends Component {
       columnWidth, rowHeight, background, contentBackground, contentColor,
       children, align, fontSize, fontFamily, color, breakpoint
     } = this.props;
-    const {fromData, toData} = this.state;
+    const {fromData, toData, display, fadeOut, leftOffset, rightOffset} = this.state;
     const columns = this.memoizeColumns(children);
-    const gridItems = this.memoizeGridItems(children);
+    const rootGridItems = this.memoizeGridItems(children);
     const content = this.memoizeContent(children, fromData, toData);
     const justifyContent = this.memoizeAlign(align);
 
@@ -317,22 +380,28 @@ export default class SiteNav extends Component {
           onMouseLeave={this.onMouseLeave}
           columns={columns}
         >
-          {gridItems}
+          {rootGridItems}
           <ContentRow columns={columns}>
-            <MovingDiv display={this.state.display}
-                       fadeOut={this.state.fadeOut}
-                       fromData={this.state.fromData}
-                       toData={this.state.toData}
-                       color={contentColor}
+            <Arrow
+              display={display}
+              fadeOut={fadeOut}
+              fromData={fromData}
+              toData={toData}
+              onClick={this.onClickMovingDiv}
+              background={contentBackground}
+              leftOffset={leftOffset}
+              rightOffset={rightOffset}
+            />
+            <MovingDiv
+              display={display}
+              fadeOut={fadeOut}
+              fromData={fromData}
+              toData={toData}
+              color={contentColor}
+              onClick={this.onClickMovingDiv}
+              background={contentBackground}
             >
-              <ArrowUp fromData={this.state.fromData}
-                       toData={this.state.toData}
-                       background={contentBackground}
-              />
-              <MovingDivContent onClick={this.onClickMovingDiv}
-                                background={contentBackground}>
-                {content}
-              </MovingDivContent>
+              {content}
             </MovingDiv>
           </ContentRow>
         </GridContainer>

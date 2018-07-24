@@ -34,8 +34,16 @@
     "@babel/plugin-proposal-class-properties": "^7.0.0-beta.52",
     "@babel/preset-env": "^7.0.0-beta.52",
     "@babel/preset-react": "^7.0.0-beta.52",
+    "babel-eslint": "^8.2.6",
     "babel-plugin-styled-components": "^1.5.1",
     "babel-preset-minify": "^0.4.3",
+    "eslint": "^5.2.0",
+    "eslint-config-airbnb": "^17.0.0",
+    "eslint-friendly-formatter": "^4.0.1",
+    "eslint-plugin-babel": "^5.1.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.10.0",
     "rimraf": "^2.6.2"
   },
   "dependencies": {
