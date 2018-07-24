@@ -3,7 +3,7 @@ import {Switch, Link, Route, Redirect} from 'react-router-dom';
 import styled, {injectGlobal} from 'styled-components';
 import Home from '../home';
 import Contact from '../contact';
-import SiteNav, {ContentGroup} from './siteNav';
+import SiteNav, {ContentGroup} from 'react-site-nav';
 import logo from '../../../assets/logo-transparent.png';
 import ProductsContentGroup from './products';
 import Developers from './developers';
@@ -55,6 +55,7 @@ export default class App extends Component {
             background="transparent"
             fontSize="18"
             fontFamily="Helvetica, sans-serif"
+            debug
           >
             <ContentGroup title="Products" width="420" height="270">
               <ProductsContentGroup/>
