@@ -154,20 +154,27 @@ const FadeOutArrow = keyframes`
     opacity: 0;
   }
 `;
+const calculateArrowMarginLeft = (data, leftOffset, rightOffset) => css`
+  margin-left: ${
+  data ? data.left + (data.width / 2) - leftOffset + rightOffset - arrowHeight
+    - (leftOffset > 0 || rightOffset > 0 ? OffScreenPadding : 0)
+    : 0
+  }px;
+`;
 const MoveArrow = (fromData, toData, leftOffset, rightOffset) => keyframes`
   from {
-    margin-left: ${fromData.left + (fromData.width / 2) - leftOffset + rightOffset - arrowHeight}px;
+    ${calculateArrowMarginLeft(fromData, leftOffset, rightOffset)}
   }
   
   to {
-    margin-left: ${toData.left + (toData.width / 2) - leftOffset + rightOffset - arrowHeight}px;
+    ${calculateArrowMarginLeft(toData, leftOffset, rightOffset)}
   }
 `;
 const Arrow = styled.div`
   top: -${arrowHeight}px;
   z-index: 1;
   position: absolute;
-  margin-left: ${({toData, leftOffset, rightOffset}) => toData ? toData.left + (toData.width / 2) - leftOffset + rightOffset - arrowHeight : 0}px;
+  ${({toData, leftOffset, rightOffset}) => calculateArrowMarginLeft(toData, leftOffset, rightOffset)}
   display: ${({display}) => display};
   width: 0; 
   height: 0;
