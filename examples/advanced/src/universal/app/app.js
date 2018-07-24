@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {Switch, Link, Route, Redirect} from 'react-router-dom';
 import styled, {injectGlobal} from 'styled-components';
+import SiteNav, {ContentGroup} from 'react-site-nav';
 import Home from '../home';
 import Contact from '../contact';
-import SiteNav, {ContentGroup} from 'react-site-nav';
 import logo from '../../../assets/logo-transparent.png';
 import ProductsContentGroup from './products';
 import Developers from './developers';
