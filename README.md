@@ -13,6 +13,7 @@
 Your search for the perfect site navigation bar ends here. Finally a world class navigation bar 
 you can use straight out of the box. Why use this package?
 * Beautiful animations
+* Automatic viewport detection and correction so flyouts never get rendered off screen
 * Completely customisable
 * Powered by css grid, css animations and styled components
 
