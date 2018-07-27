@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import styled, {keyframes, css} from 'styled-components';
 import memoize from 'memoize-one';
 import kebabCase from 'lodash.kebabcase';
+import PropTypes from 'prop-types';
 
 const defaultRootAlign = 'center';
 const defaultColor = '#fff';
@@ -252,7 +253,24 @@ export default class SiteNav extends Component {
     contentColor: defaultContentColor,
     breakpoint: defaultBreakpoint,
     color: defaultColor,
+    fontSize: null,
+    fontFamily: null,
     debug: false,
+  };
+
+  static propTypes = {
+    align: PropTypes.oneOf(['left', 'center', 'right']),
+    columnWidth: PropTypes.oneOf([PropTypes.string, PropTypes.number]),
+    rowHeight: PropTypes.oneOf([PropTypes.string, PropTypes.number]),
+    background: PropTypes.string,
+    contentBackground: PropTypes.string,
+    contentColor: PropTypes.string,
+    breakpoint: PropTypes.oneOf([PropTypes.string, PropTypes.number]),
+    color: PropTypes.string,
+    fontSize: PropTypes.oneOf([PropTypes.string, PropTypes.number]),
+    fontFamily: PropTypes.oneOf([PropTypes.string, PropTypes.number]),
+    debug: PropTypes.bool,
+    children: PropTypes.any.isRequired,
   };
 
   /**
@@ -269,14 +287,16 @@ export default class SiteNav extends Component {
       left: (((i + 1) * columnWidth) - (columnWidth / 2)) - (width / 2),
     };
   }));
-  memoizeGridItems = memoize(children => React.Children.map(children, (child, i) =>
-    <GridItem key={`menu-title-${i}`}
-              index={i}
-              onMouseEnter={(e) => this.onMouseEnter(e.target, i)}>
+  memoizeGridItems = memoize(children => React.Children.map(children, (child, i) => (
+    <GridItem
+      key={`menu-title-${i}`}
+      index={i}
+      onMouseEnter={(e) => this.onMouseEnter(e.target, i)}
+    >
       {child.props.title}
     </GridItem>
-  ));
-  memoizeContent = memoize((children, fromData, toData) => React.Children.map(children, (child, i) =>
+  )));
+  memoizeContent = memoize((children, fromData, toData) => React.Children.map(children, (child, i) => (
     <ContentGroupContainer
       key={`content-group-${i}`}
       show={toData && toData.index === i}
@@ -284,7 +304,7 @@ export default class SiteNav extends Component {
     >
       {child.props.children}
     </ContentGroupContainer>
-  ));
+  )));
   memoizeColumns = memoize(children => React.Children.count(children));
   memoizeAlign = memoize(align => {
     switch (align) {
