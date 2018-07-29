@@ -4,7 +4,7 @@
   "description": "A kick ass site menu powered by styled components inspired by Stripe.",
   "main": "lib/index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest src/*.test.js",
     "build": "rimraf lib/* && babel src -d lib --ignore *.test.js",
     "lint": "eslint --cache --format 'node_modules/eslint-friendly-formatter' ./src",
     "prep-publish": "npm run build && npm version patch -m 'Upgrade to %s' && npm publish && git push"
@@ -44,6 +44,7 @@
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-react": "^7.10.0",
+    "jest": "^23.4.1",
     "prop-types": "^15.6.2",
     "rimraf": "^2.6.2"
   },
