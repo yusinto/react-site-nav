@@ -4,7 +4,7 @@
   "description": "A kick ass site menu powered by styled components inspired by Stripe.",
   "main": "lib/index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --config ./jest.config.js",
     "build": "rimraf lib/* && babel src -d lib --ignore *.test.js",
     "lint": "eslint --cache --format 'node_modules/eslint-friendly-formatter' ./src",
     "prep-publish": "npm run build && npm version patch -m 'Upgrade to %s' && npm publish && git push"
@@ -29,12 +29,14 @@
   },
   "homepage": "https://github.com/yusinto/react-site-nav#readme",
   "devDependencies": {
-    "@babel/cli": "^7.0.0-beta.54",
-    "@babel/core": "^7.0.0-beta.54",
-    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.54",
-    "@babel/preset-env": "^7.0.0-beta.54",
-    "@babel/preset-react": "^7.0.0-beta.54",
+    "@babel/cli": "^7.0.0-beta.55",
+    "@babel/core": "^7.0.0-beta.55",
+    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.55",
+    "@babel/preset-env": "^7.0.0-beta.55",
+    "@babel/preset-react": "^7.0.0-beta.55",
+    "babel-core": "^7.0.0-0",
     "babel-eslint": "^8.2.6",
+    "babel-jest": "^23.4.2",
     "babel-plugin-styled-components": "^1.5.1",
     "babel-preset-minify": "^0.4.3",
     "eslint": "^5.2.0",
@@ -44,6 +46,7 @@
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-react": "^7.10.0",
+    "jest": "^23.4.2",
     "rimraf": "^2.6.2"
   },
   "dependencies": {

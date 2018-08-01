@@ -1,3 +1,9 @@
 module.exports = {
-  setupFiles: ['./test/setup.js'],
+  rootDir: './src',
+  setupFiles: ['<rootDir>/../test/setup.js'],
+  transform: {
+    ".*": "babel-jest",
+  },
+  verbose: true,
+  testURL: 'http://localhost/',
 };
