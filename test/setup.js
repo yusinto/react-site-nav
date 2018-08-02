@@ -1,4 +1,4 @@
-// TODO:
-// import td from 'testdouble';
+// import Enzyme from 'enzyme';
+// import Adapter from 'enzyme-adapter-react-16';
 //
-// global.td = td;
+// Enzyme.configure({adapter: new Adapter()});
