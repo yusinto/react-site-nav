@@ -1,5 +1,5 @@
 import React from 'react';
-import Arrow from './arrow';
+import Arrow, {calculateArrowMarginLeft} from './arrow';
 import renderer from 'react-test-renderer';
 import 'jest-styled-components';
 
@@ -26,7 +26,36 @@ describe('<Arrow />', () => {
 
   it('should fade in on cold start', () => {
     const arrow = renderer.create(<Arrow {...props}/>);
-    // console.log(arrow);
     expect(arrow).toMatchSnapshot();
+  });
+
+  it('should fade out on mouse out', () => {
+    const propsCopy = {
+      ...props,
+      display: 'none',
+      fadeOut: true,
+    };
+    const arrow = renderer.create(<Arrow {...propsCopy}/>);
+    expect(arrow).toMatchSnapshot();
+  });
+
+  it('animate moving between content groups', () => {
+    props.toData = {height: 350, width: 200, index: 1, left: 200};
+    const propsCopy = {
+      ...props,
+      toData: {height: 350, width: 200, index: 1, left: 200},
+    };
+    const arrow = renderer.create(<Arrow {...propsCopy}/>);
+    expect(arrow).toMatchSnapshot();
+  });
+
+  it('should compensate for left offset', () => {
+    const marginLeft = calculateArrowMarginLeft(fromData, 50, 0);
+    expect(marginLeft).toMatchSnapshot();
+  });
+
+  it('should compensate for right offset', () => {
+    const marginLeft = calculateArrowMarginLeft(fromData, 0, 50);
+    expect(marginLeft).toMatchSnapshot();
   });
 });

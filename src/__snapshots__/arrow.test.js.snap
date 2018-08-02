@@ -1,5 +1,44 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<Arrow /> animate moving between content groups 1`] = `
+.c0 {
+  top: -8px;
+  z-index: 1;
+  position: absolute;
+  margin-left: 292px;
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid white;
+  -webkit-animation: kLekZG 0.28s forwards ease;
+  animation: kLekZG 0.28s forwards ease;
+}
+
+<div
+  className="c0"
+  display="block"
+  onClick={[MockFunction]}
+/>
+`;
+
+exports[`<Arrow /> should compensate for left offset 1`] = `
+Array [
+  "margin-left:",
+  "242",
+  "px;",
+]
+`;
+
+exports[`<Arrow /> should compensate for right offset 1`] = `
+Array [
+  "margin-left:",
+  "342",
+  "px;",
+]
+`;
+
 exports[`<Arrow /> should fade in on cold start 1`] = `
 .c0 {
   top: -8px;
@@ -19,6 +58,29 @@ exports[`<Arrow /> should fade in on cold start 1`] = `
 <div
   className="c0"
   display="block"
+  onClick={[MockFunction]}
+/>
+`;
+
+exports[`<Arrow /> should fade out on mouse out 1`] = `
+.c0 {
+  top: -8px;
+  z-index: 1;
+  position: absolute;
+  margin-left: 302px;
+  display: none;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid white;
+  -webkit-animation: hSsjZP 0.34s forwards ease;
+  animation: hSsjZP 0.34s forwards ease;
+}
+
+<div
+  className="c0"
+  display="none"
   onClick={[MockFunction]}
 />
 `;

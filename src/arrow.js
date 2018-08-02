@@ -22,7 +22,9 @@ const FadeOutArrow = keyframes`
     opacity: 0;
   }
 `;
-const calculateArrowMarginLeft = (data, leftOffset, rightOffset) => css`
+
+// export for unit test
+export const calculateArrowMarginLeft = (data, leftOffset, rightOffset) => css`
   margin-left: ${
   data ? data.left + (data.width / 2) - leftOffset + rightOffset - arrowHeight
     - (leftOffset > 0 || rightOffset > 0 ? OffScreenPadding : 0)
