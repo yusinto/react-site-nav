@@ -13,6 +13,7 @@ const defaultContentBackground = '#fff';
 const defaultContentColor = '#323232';
 const defaultContentWidth = 320;
 const defaultContentHeight = 200;
+const defaultContentTop = 0;
 
 const arrowHeight = 8;
 const perspective = 850;
@@ -29,11 +30,10 @@ const setFromProps = camelCaseKey => css`
   ${props => props[camelCaseKey] ? `${kebabCase(camelCaseKey)}: ${props[camelCaseKey]}` : null}`;
 
 const GridContainer = styled.div`
-  // HACK: can't use display none because menu flashes when breakpoint changes for some reason!
+  // use visibility hidden instead of display none because menu flashes when breakpoint changes for some reason!
   @media(max-width: ${({breakpoint}) => (breakpoint - 1)}px) {
     position: absolute;
-    opacity: 0;
-    z-index: -1;
+    visibility: hidden;
   }
   
   @media(min-width: ${({breakpoint}) => breakpoint}px) {
@@ -47,6 +47,20 @@ const GridContainer = styled.div`
     ${setFromProps('color')};  
     ${setFromProps('fontFamily')};
     ${setFromProps('fontSize')}px;  
+  }
+`;
+const GridItemLink = styled.a`
+  grid-column: ${({index}) => index + 1} / span 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    opacity: 0.5;
+  }
+  ${setFromProps('color')};
+  
+  &:visited {
+    ${setFromProps('color')};
   }
 `;
 const GridItem = styled.div`
@@ -102,13 +116,15 @@ const FadeOut = keyframes`
     opacity: 0;
     transform: perspective(${perspective}px) rotateX(-60deg);
     transform-origin: top center;
-    z-index: -1; // HACK: do this so hidden div does not block other elements on the page! We should have set display: none here, but its too hard
+    visibility: hidden;
   }
 `;
 const MovingDiv = styled.div`
+  opacity: 1;
   ${setFromProps('color')};
   ${setFromProps('background')};
   position: absolute;
+  top: ${({top}) => top}px;
   left: ${({fromData}) => fromData ? fromData.left : 0}px;
   width: ${({fromData}) => fromData ? fromData.width : 0}px;
   height: ${({fromData}) => fromData ? fromData.height : 0}px;
@@ -171,11 +187,16 @@ const MoveArrow = (fromData, toData, leftOffset, rightOffset) => keyframes`
   }
 `;
 const Arrow = styled.div`
-  top: -${arrowHeight}px;
+  top: -${({top}) => (arrowHeight - top)}px;
   z-index: 1;
   position: absolute;
   ${({toData, leftOffset, rightOffset}) => calculateArrowMarginLeft(toData, leftOffset, rightOffset)}
-  display: ${({display}) => display};
+  display: ${({display, toData}) => {
+  if (toData && toData.width === 0 && toData.height === 0) {
+    return 'none';
+  }
+  return display;
+}};
   width: 0; 
   height: 0;
   border-left: ${arrowHeight}px solid transparent;
@@ -218,6 +239,7 @@ const FadeOutContent = keyframes`
   
   to {
     opacity: 0;
+    visibility: hidden;
   }
 `;
 const ContentGroupContainer = styled.div`
@@ -228,6 +250,7 @@ const ContentGroupContainer = styled.div`
   height: 100%;
   opacity: ${({show}) => show ? 1 : 0};
   z-index: ${({show}) => show ? 1 : 0};
+  pointer-events: ${({show}) => show ? 'auto' : 'none'}; // disregard mouse event if content group is inactive
   animation: ${({show, fadeOut}) => {
   if (show) return FadeInContent;
   if (fadeOut) return FadeOutContent;
@@ -236,8 +259,14 @@ const ContentGroupContainer = styled.div`
   ${({show}) => show ? `${fadeInContentSeconds}` : `${fadeOutContentSeconds}`}s
   forwards;
 `;
-export const ContentGroup = ({title, width, height}) => {
-  return <div>{title}: {width}x{height}</div>;
+export const ContentGroup = ({title, width, height, background}) => {
+  return (
+    <>
+      {title}
+      {width}x{height}
+      {background}
+    </>
+  );
 };
 
 export default class SiteNav extends Component {
@@ -250,6 +279,7 @@ export default class SiteNav extends Component {
     background: defaultBackground,
     contentBackground: defaultContentBackground,
     contentColor: defaultContentColor,
+    contentTop: defaultContentTop,
     breakpoint: defaultBreakpoint,
     color: defaultColor,
     debug: false,
@@ -259,24 +289,58 @@ export default class SiteNav extends Component {
    * Injects index and left properties into MenuData
    */
   memoizeMenuData = memoize((columnWidth, children) => React.Children.map(children, (child, i) => {
-    // if width or height is not specified, add defaults
-    const width = child.props.width ? child.props.width : defaultContentWidth;
+    // if width and height are not specified, that means we don't want to render the content group i.e. we only
+    // want to render root item
+    const {width, height} = child.props;
+    let sanitisedWidth, sanitisedHeight;
+
+    if (!width && !height) {
+      sanitisedWidth = 0;
+      sanitisedHeight = 0;
+    } else {
+      // if width or height is not specified, add defaults
+      sanitisedWidth = width || defaultContentWidth;
+      sanitisedHeight = height || defaultContentHeight;
+    }
+
     return {
-      height: defaultContentHeight,
       ...child.props, // order is important here! spread child.props after height, followed by width.
-      width,
+      height: sanitisedHeight,
+      width: sanitisedWidth,
       index: i,
-      left: (((i + 1) * columnWidth) - (columnWidth / 2)) - (width / 2),
+      left: (((i + 1) * columnWidth) - (columnWidth / 2)) - (sanitisedWidth / 2),
     };
   }));
-  memoizeGridItems = memoize(children => React.Children.map(children, (child, i) =>
-    <GridItem key={`menu-title-${i}`}
-              index={i}
-              onMouseEnter={(e) => this.onMouseEnter(e.target, i)}>
-      {child.props.title}
-    </GridItem>
+  memoizeGridItems = memoize((children, color) => React.Children.map(children, (child, i) => {
+      const {title, rootUrl} = child.props;
+
+      if (rootUrl) {
+        return (
+          <GridItemLink
+            href={rootUrl}
+            key={`menu-title-${i}`}
+            index={i}
+            onMouseEnter={(e) => this.onMouseEnter(e.target, i)}
+            color={color}
+          >
+            {title}
+          </GridItemLink>
+        );
+      }
+
+      return (
+        <GridItem
+          key={`menu-title-${i}`}
+          index={i}
+          onMouseEnter={(e) => this.onMouseEnter(e.target, i)}
+          color={color}
+        >
+          {title}
+        </GridItem>
+      );
+    }
   ));
-  memoizeContent = memoize((children, fromData, toData) => React.Children.map(children, (child, i) =>
+  memoizeContent = memoize((children, fromData, toData) => React.Children.map(children, (child, i) => (
     <ContentGroupContainer
       key={`content-group-${i}`}
       show={toData && toData.index === i}
@@ -284,7 +348,7 @@ export default class SiteNav extends Component {
     >
       {child.props.children}
     </ContentGroupContainer>
-  ));
+  )));
   memoizeColumns = memoize(children => React.Children.count(children));
   memoizeAlign = memoize(align => {
     switch (align) {
@@ -355,14 +419,15 @@ export default class SiteNav extends Component {
 
   render() {
     const {
-      columnWidth, rowHeight, background, contentBackground, contentColor,
+      columnWidth, rowHeight, background, contentBackground, contentColor, contentTop,
       children, align, fontSize, fontFamily, color, breakpoint
     } = this.props;
     const {fromData, toData, display, fadeOut, leftOffset, rightOffset} = this.state;
     const columns = this.memoizeColumns(children);
-    const rootGridItems = this.memoizeGridItems(children);
+    const rootGridItems = this.memoizeGridItems(children, color);
     const content = this.memoizeContent(children, fromData, toData);
     const justifyContent = this.memoizeAlign(align);
+    const contentBackgroundSanitised = (toData && toData.background) || contentBackground;
 
     return (
       <nav>
@@ -387,8 +452,9 @@ export default class SiteNav extends Component {
               fadeOut={fadeOut}
               fromData={fromData}
               toData={toData}
+              top={contentTop}
               onClick={this.onClickMovingDiv}
-              background={contentBackground}
+              background={contentBackgroundSanitised}
               leftOffset={leftOffset}
               rightOffset={rightOffset}
             />
@@ -398,8 +464,9 @@ export default class SiteNav extends Component {
               fromData={fromData}
               toData={toData}
               color={contentColor}
+              top={contentTop}
               onClick={this.onClickMovingDiv}
-              background={contentBackground}
+              background={contentBackgroundSanitised}
             >
               {content}
             </MovingDiv>

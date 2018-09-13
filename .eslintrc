@@ -36,7 +36,9 @@
     "no-useless-escape": 0,
     "no-unused-expressions": [1 , {"allowTernary": true}],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    "react/sort-comp": 0
+    "react/sort-comp": 0,
+    "react/prop-types": 0,
+    "react/destructuring-assignment": 0
   },
   "env": {
     "jest": true,
