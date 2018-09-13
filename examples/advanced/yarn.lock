@@ -6258,8 +6258,8 @@ react-router@^4.3.1:
     warning "^4.0.1"
 
 react-site-nav@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/react-site-nav/-/react-site-nav-0.2.1.tgz#71e34d524b8ac95b12300f4b12e16b59ecccf3bf"
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/react-site-nav/-/react-site-nav-0.2.6.tgz#ece4f7146af9476fc579d6e5ac162560ba520c38"
   dependencies:
     lodash.kebabcase "^4.1.1"
     memoize-one "^4.0.0"
