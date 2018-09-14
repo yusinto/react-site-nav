@@ -69,7 +69,7 @@ The main react component that represents the site nav. The root container is a c
 most of the props below maps directly to this grid and should be self-explanatory. Place
 ContentGroup components as children of SiteNav to render the "flyouts".
 
-```js
+```jsx
   <SiteNav
     align="center" /* center, left, right. This directly maps to justify-content of the root grid. */
     columnWidth="150"
@@ -80,7 +80,7 @@ ContentGroup components as children of SiteNav to render the "flyouts".
     fontFamily="Helvetica, sans-serif"
     contentBackground="#fff" /* Applies to all content groups */
     contentColor="#323232" /* Applies to all content groups */
-    contentTop="0" /* Adjusts the distance between ContentGroups and the root item */
+    contentTop="0" /* Adjusts the distance between ContentGroups and root items */
     breakpoint="768" /* Show site nav at this breakpoint */
     debug={false} /* Keep ContentGroups open to make debugging easier */
   >
@@ -97,9 +97,10 @@ as a "flyout" on hover of the root items. It accepts the following props which a
 ```jsx
   <ContentGroup 
     title="Products" 
-    width="420" 
-    height="270" 
-    background="white" /* Optional. overrides SiteNav contentBackground property */
+    width="420"
+    height="270"
+    rootUrl="https://some/link" /* Optional. Render root item as a link */
+    background="white" /* Optional. Overrides SiteNav contentBackground property */
   >
   {
     /* You can render anything here! */
@@ -125,4 +126,4 @@ a width or a height so SiteNav knows you want to render a ContentGroup.
   </ContentGroup>
 ```
 
-Check the demo in my (blog)[https://reactjunkie.com/].
+Check the demo in my [blog](https://reactjunkie.com/).
