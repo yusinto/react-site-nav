@@ -97,7 +97,7 @@ as a "flyout" on hover of the root items. It accepts the following props which a
 ```jsx
   <ContentGroup 
     title="Products" 
-    width="420" /* You MUST specify either a width or a height for each ContentGroup */ 
+    width="420" 
     height="270" 
     background="white" /* Optional. overrides SiteNav contentBackground property */
   >
@@ -114,9 +114,7 @@ To render a root item as a link without a ContentGroup, you can do this:
 ```
 
 By not specifying width and height, SiteNav assumes you just want to render the root item
-without a ContenGroup. 
-
-Of course you can have a linked root item plus a ContentGroup. You need to specify either
+without a ContentGroup. Of course you can have a linked root item plus a ContentGroup. You need to specify either
 a width or a height so SiteNav knows you want to render a ContentGroup. 
 
 ```jsx
