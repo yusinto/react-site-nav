@@ -37,7 +37,7 @@ export default () =>
     <div>
       {/* 2. Add SiteNav with ContentGroup as children */}
       <SiteNav>
-        <ContentGroup title="About">
+        <ContentGroup title="About" height="200">
           {/* 3. You can add anything in a ContentGroup */}
           <ul>
             {/* react router link! */}
@@ -45,7 +45,7 @@ export default () =>
             <li>Another list item</li>
           </ul>
         </ContentGroup>
-        <ContentGroup title="Contact">
+        <ContentGroup title="Contact" height="200">
           Free text followed by some links.<br/>
           <a href="mailto:yusinto@gmail.com">Email</a><br/>
           <a href="https://github.com/yusinto">Github</a>
@@ -80,8 +80,9 @@ ContentGroup components as children of SiteNav to render the "flyouts".
     fontFamily="Helvetica, sans-serif"
     contentBackground="#fff" /* Applies to all content groups */
     contentColor="#323232" /* Applies to all content groups */
+    contentTop="0" /* Adjusts the distance between ContentGroups and the root item */
     breakpoint="768" /* Show site nav at this breakpoint */
-    debug={false} /* Keep ContentGroup open to make debugging easier */
+    debug={false} /* Keep ContentGroups open to make debugging easier */
   >
     { /* These will render as flyouts */}
     <ContentGroup>...</ContentGroup>
@@ -91,12 +92,39 @@ ContentGroup components as children of SiteNav to render the "flyouts".
 
 ### ContentGroup
 Each SiteNav contains ContentGroup children components. Each ContentGroup will be rendered
-as a "flyout" on hover of the root items. It accepts the following props which are self-explanatory:
+as a "flyout" on hover of the root items. It accepts the following props which are self-explanatory.
 
-```js
-  <ContentGroup title="Products" width="420" height="270">
+```jsx
+  <ContentGroup 
+    title="Products" 
+    width="420" /* You MUST specify either a width or a height for each ContentGroup */ 
+    height="270" 
+    background="white" /* Optional. overrides SiteNav contentBackground property */
+  >
   {
     /* You can render anything here! */
   }
   </ContentGroup>
 ```
+
+To render a root item as a link without a ContentGroup, you can do this:
+
+```jsx
+  <ContentGroup title="Open Source" rootUrl="https://github.com/yusinto" />
+```
+
+By not specifying width and height, SiteNav assumes you just want to render the root item
+without a ContenGroup. 
+
+Of course you can have a linked root item plus a ContentGroup. You need to specify either
+a width or a height so SiteNav knows you want to render a ContentGroup. 
+
+```jsx
+  <ContentGroup title="Open Source" rootUrl="https://github.com/yusinto" height="200">
+    {
+      /* You can render anything here! */
+    }
+  </ContentGroup>
+```
+
+Check the demo in my (blog)[https://reactjunkie.com/].
