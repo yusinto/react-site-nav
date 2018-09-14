@@ -115,8 +115,8 @@ To render a root item as a link without a ContentGroup, you can do this:
 ```
 
 By not specifying width and height, SiteNav assumes you just want to render the root item
-without a ContentGroup. Of course you can have a linked root item plus a ContentGroup. You need to specify either
-a width or a height so SiteNav knows you want to render a ContentGroup. 
+without a ContentGroup. Of course you can have a linked root item plus a ContentGroup. Just specify either
+a width or a height so SiteNav knows you want to render the group. 
 
 ```jsx
   <ContentGroup title="Open Source" rootUrl="https://github.com/yusinto" height="200">
