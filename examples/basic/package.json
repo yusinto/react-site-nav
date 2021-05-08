@@ -33,7 +33,7 @@
     "babel-plugin-styled-components": "^1.5.1",
     "css-loader": "^1.0.0",
     "express": "^4.16.3",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.21",
     "lodash.kebabcase": "^4.1.1",
     "memoize-one": "^4.0.2",
     "prop-types": "^15.6.2",
